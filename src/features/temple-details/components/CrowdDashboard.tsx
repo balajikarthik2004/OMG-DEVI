@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { Sun, Sunset, BrainCircuit } from "lucide-react";
+import { Sun, Sunset, BrainCircuit, Flame } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { LiveClock } from "@/hooks/use-now";
 
 export function CrowdDashboard({ t, wait }: any) {

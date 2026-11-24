@@ -12,6 +12,7 @@ import {
   Link2,
   CheckCircle2,
   Sparkles,
+  Flame,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { Temple } from "@/data/temples";
@@ -84,6 +85,15 @@ export const TempleHeroBanner = memo(function TempleHeroBanner({ temple }: Props
 
             {/* Top-Right Action Buttons */}
             <div className="flex items-center gap-2">
+              <Link
+                to="/heatmap"
+                search={{ temple: temple.slug }}
+                title={t("Live Crowd Heatmap")}
+                className="h-10 px-3.5 rounded-full bg-gradient-to-r from-orange-500 to-rose-600 hover:from-orange-600 hover:to-rose-700 text-white backdrop-blur flex items-center gap-1.5 text-xs font-bold transition-all shadow-md hover:scale-105"
+              >
+                <Flame className="w-4 h-4 text-white" />
+                <span className="hidden sm:inline">{t("Live Heatmap")}</span>
+              </Link>
               <button
                 onClick={() => setIsShareOpen(true)}
                 title={t("Share")}

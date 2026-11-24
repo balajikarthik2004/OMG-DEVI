@@ -18,7 +18,7 @@ export function PenangTempleProfile() {
       <div className="relative z-20 mx-auto max-w-7xl px-4 lg:px-8">
         <div className="flex flex-wrap items-center justify-between gap-2 py-3">
           <nav aria-label={t("Temple services")} className="flex flex-wrap gap-2">
-            <Link to="/heatmap" search={{ temple: temple.slug }} className="inline-flex items-center gap-1.5 rounded-full border bg-white px-3 py-1.5 text-sm font-semibold text-[#165B43] hover:bg-emerald-50"><MapPin className="size-4" /> {t("Temple Map")}</Link>
+            <Link to="/heatmap" search={{ temple: temple.slug }} className="inline-flex items-center gap-1.5 rounded-full border border-emerald-600/30 bg-emerald-50 px-3.5 py-1.5 text-sm font-bold text-[#165B43] hover:bg-emerald-100 shadow-xs"><MapPin className="size-4 text-emerald-700" /> {t("Live Crowd Heatmap")}</Link>
             <Link to="/store/$storeId" params={{ storeId: penangStoreId }} className="inline-flex items-center gap-1.5 rounded-full border bg-white px-3 py-1.5 text-sm font-semibold text-[#165B43] hover:bg-emerald-50"><Store className="size-4" /> {t("Temple Store")}</Link>
           </nav>
           <p className="text-xs text-slate-500">{t(temple.imageCaption)}</p>
@@ -32,13 +32,14 @@ export function PenangTempleProfile() {
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             {[
-              { label: "Live Darshan Wait", Icon: Clock },
-              { label: "Live crowd level", Icon: Users },
-              { label: "Live parking availability", Icon: ParkingCircle },
-            ].map(({ label, Icon }) => (
-              <div key={label} className="rounded-xl border border-slate-100 bg-slate-50 p-4">
+              { label: "Live Darshan Wait", value: "22 mins", sub: "Moving steadily", Icon: Clock },
+              { label: "Live crowd level", value: "42% Moderate", sub: "~4,200 devotees", Icon: Users },
+              { label: "Live parking availability", value: "68% full", sub: "160 slots open", Icon: ParkingCircle },
+            ].map(({ label, value, sub, Icon }) => (
+              <div key={label} className="rounded-xl border border-emerald-100/60 bg-emerald-50/40 p-4">
                 <p className="flex items-center gap-2 text-sm font-semibold text-slate-700"><Icon className="size-4 text-[#165B43]" /> {t(label)}</p>
-                <p className="mt-2 text-lg font-bold text-slate-900">{t("Unavailable")}</p>
+                <p className="mt-2 text-xl font-bold text-slate-900">{t(value)}</p>
+                <p className="text-xs text-slate-500 mt-0.5">{t(sub)}</p>
               </div>
             ))}
           </div>

@@ -1278,7 +1278,11 @@ export const temples: Temple[] = [
   },
 ];
 
-export const templeDirectory = [...temples, penangTemple];
+const batuCavesTemple = temples.find((t) => t.slug === "batu-caves-murugan")!;
+const otherTemples = temples.filter((t) => t.slug !== "batu-caves-murugan");
+
+// Sri Subramaniar Swamy Temple (Batu Caves) and Thaneermalai Balathandayuthapani (Penang) are items 1 & 2
+export const templeDirectory = [batuCavesTemple, penangTemple, ...otherTemples];
 
 export const statesAndDistricts = Array.from(new Set(temples.map((t) => t.state))).map((state) => {
   return {

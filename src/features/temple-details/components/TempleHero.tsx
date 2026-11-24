@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, Share2, Bookmark, MapPin, X, MessageCircle, Twitter, Facebook, Instagram, Link2, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Share2, Bookmark, MapPin, X, MessageCircle, Twitter, Facebook, Instagram, Link2, CheckCircle2, Flame } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 

@@ -18,11 +18,31 @@ const bandOf = (pct: number) => SEVERITY_BANDS.find((b) => b.key === severityFor
 
 /** Percentage positions on the map image, keyed by the heatmap zone id. */
 const GATE_POSITIONS: Record<string, { top: string; left: string; align: "left" | "right" | "center" }> = {
+  // Tiruvannamalai
   east: { top: "48%", left: "88%", align: "right" },
   north: { top: "12%", left: "50%", align: "center" },
   south: { top: "86%", left: "50%", align: "center" },
   west: { top: "48%", left: "12%", align: "left" },
   inner: { top: "50%", left: "50%", align: "center" },
+
+  // Batu Caves (Sri Subramaniar Swamy Temple)
+  "temple-cave": { top: "20%", left: "51%", align: "center" },
+  "stairway": { top: "34%", left: "47%", align: "left" },
+  "murugan-statue": { top: "44%", left: "57%", align: "left" },
+  "main-forecourt": { top: "69%", left: "47%", align: "center" },
+  "parking": { top: "84%", left: "28%", align: "center" },
+  "komuter": { top: "83%", left: "88%", align: "center" },
+  "restrooms": { top: "54%", left: "33%", align: "right" },
+  "snacks": { top: "56%", left: "73%", align: "left" },
+  "souvenirs": { top: "69%", left: "72%", align: "left" },
+
+  // Penang (Thaneermalai Shree Balathandayuthapani Devasthanam)
+  "hilltop": { top: "27%", left: "64%", align: "right" },
+  "old-shrine": { top: "48%", left: "41%", align: "left" },
+  "stairway": { top: "49%", left: "58%", align: "right" },
+  "shiva": { top: "74%", left: "27%", align: "left" },
+  "main-entrance": { top: "76%", left: "50%", align: "center" },
+  "parking": { top: "87%", left: "74%", align: "center" },
 };
 
 /** Live entry/exit counters, matched to the admin centre's gate figures. */
@@ -42,7 +62,7 @@ export const GateOverlay = memo(function GateOverlay({
   isClosed: boolean;
 }) {
   const { t } = useTranslation();
-  const gates = zones.filter((z) => z.kind === "gate" && GATE_POSITIONS[z.id]);
+  const gates = zones.filter((z) => Boolean(GATE_POSITIONS[z.id]));
 
   if (gates.length === 0) return null;
 

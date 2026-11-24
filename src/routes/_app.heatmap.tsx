@@ -20,12 +20,12 @@ export const Route = createFileRoute("/_app/heatmap")({
   component: HeatmapPage,
 });
 
-const shortName = (name: string) => name.replace(/\s+Temple$/i, "");
+const shortName = (name: string) => name.replace(/\s+(Temple|Devasthanam)$/i, "");
 
 function HeatmapPage() {
   const { t } = useTranslation();
   const { temple: slug } = Route.useSearch();
-  const temple = templeDirectory.find((entry) => entry.slug === slug) ?? temples[0];
+  const temple = templeDirectory.find((entry) => entry.slug === slug) ?? templeDirectory[0];
 
   if ("crowdPct" in temple) return <LiveHeatmap t={temple} />;
 
@@ -72,7 +72,7 @@ function LiveHeatmap({ t }: { t: Temple }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLDivElement>(null);
   const [fullView, setFullView] = useState(false);
-  const [showGates, setShowGates] = useState(true);
+  const [showGates, setShowGates] = useState(false);
   const [showHistorical, setShowHistorical] = useState(false);
 
   const { displayZones, mapImage } = useHeatmapZones(t);
