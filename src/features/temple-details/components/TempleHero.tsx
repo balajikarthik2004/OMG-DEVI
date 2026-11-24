@@ -26,6 +26,7 @@ const bgPositions: Record<string, string> = {
   // Keeps the golden Murugan statue and the dark cliff face in the 240px band,
   // which also gives the overlaid title something to read against.
   "batu-caves-murugan": "center 28%",
+  "penang-balathandayuthapani": "center 8%",
 };
 
 /** `state` holds a country for temples outside India; keep this in sync with temples.ts. */
@@ -56,7 +57,7 @@ export function TempleHero({ t }: any) {
         {hasBgImg && (
           <img
             src={bannerSrc}
-            alt={t.name}
+            alt={t.imageCaption ? `${tStr(t.name)} · ${tStr(t.imageCaption)}` : tStr(t.name)}
             className="absolute inset-0 w-full h-full object-cover"
             style={{ objectPosition: bgPositions[t.slug] ?? "center 30%" }}
           />

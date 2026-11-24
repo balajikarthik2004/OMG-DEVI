@@ -75,8 +75,7 @@ export function AppShell() {
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-b from-white to-[#FAF6F0] p-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.18)] border border-[#C48437]/35 transition-transform group-hover:scale-105">
               <img
                 src={omLogo}
-                alt="Om"
-                className="h-full w-full object-contain"
+                alt="Om"                className="h-full w-full object-contain"
               />
             </div>
             <div className="flex min-w-0 flex-col">

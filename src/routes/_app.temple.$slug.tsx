@@ -1,9 +1,11 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { getTemple } from "@/data/temples";
+import { penangTemple } from "@/data/penang-temple";
 import { lazy, useEffect, useMemo, useRef, useState } from "react";
 import { LazyPanel } from "@/components/shared/LazyPanel";
 
 import { TempleHero } from "@/features/temple-details/components/TempleHero";
+import { PenangTempleProfile } from "@/features/temple-details/components/PenangTempleProfile";
 import { CrowdDashboard } from "@/features/temple-details/components/CrowdDashboard";
 import { AIInsights } from "@/features/temple-details/components/AIInsights";
 const CrowdPredictionChart = lazy(() =>
@@ -22,12 +24,17 @@ import { MobileActionBar, OtherTemples, BookingWidget } from "@/features/temple-
 
 export const Route = createFileRoute("/_app/temple/$slug")({
   loader: ({ params }) => {
+    if (params.slug === penangTemple.slug) return { temple: penangTemple };
     const t = getTemple(params.slug);
     if (!t) throw notFound();
     return { temple: t };
   },
   head: ({ loaderData }) => ({
-    meta: [
+    meta: loaderData?.temple.slug === penangTemple.slug
+      ? [
+        { title: `${penangTemple.name}, Penang | OMG Devotee` },
+        { name: "description", content: "Daily pooja and abhishegam times, darshan wait status, and visitor information for Penang’s Waterfall Hilltop Temple." },
+      ] : [
       { title: `${loaderData?.temple.name} — Live crowd, AI best time | OMG Smart Temple` },
       { name: "description", content: `Live crowd, parking and AI-recommended visit times for ${loaderData?.temple.name}.` },
     ],
@@ -38,6 +45,11 @@ export const Route = createFileRoute("/_app/temple/$slug")({
 
 function TempleDetail() {
   const { temple: t } = Route.useLoaderData();
+  if (!("crowdPct" in t)) return <PenangTempleProfile />;
+  return <LiveTempleDetail key={t.slug} t={t} />;
+}
+
+function LiveTempleDetail({ t }: { t: NonNullable<ReturnType<typeof getTemple>> }) {
   const [pct, setPct] = useState(t.crowdPct);
   const [wait, setWait] = useState(t.waitMin);
   const [alertOn, setAlertOn] = useState(false);

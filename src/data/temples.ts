@@ -1,4 +1,5 @@
 import dallasMariammanImg from "@/assets/dallas-mariamman.png";
+import { penangTemple } from "./penang-temple";
 export type CrowdStatus = "LOW" | "MODERATE" | "HIGH" | "CRITICAL";
 
 export interface Temple {
@@ -1277,6 +1278,8 @@ export const temples: Temple[] = [
   },
 ];
 
+export const templeDirectory = [...temples, penangTemple];
+
 export const statesAndDistricts = Array.from(new Set(temples.map((t) => t.state))).map((state) => {
   return {
     state,
@@ -1298,7 +1301,7 @@ export function getTemple(slug: string) {
  * a second layer underneath the photo, so a slow or broken image URL degrades
  * to the gradient instead of leaving an empty box.
  */
-export function templeThumb(t: Temple, position = "center") {
+export function templeThumb(t: Pick<Temple, "gradientFrom" | "color" | "thumb" | "image">, position = "center") {
   const gradient = `linear-gradient(135deg, ${t.gradientFrom}, ${t.color})`;
   const src = t.thumb ?? t.image;
   // Quote the URL: Commons file names often contain "(" ")" or "," which break an unquoted url().

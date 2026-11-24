@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
-import { temples } from "@/data/temples";
+import { templeDirectory } from "@/data/temples";
 
 const BASE_URL = "";
 const staticPaths = ["/", "/search", "/plan", "/chat", "/heatmap", "/poojas", "/nearby", "/notifications", "/profile"];
@@ -11,7 +11,7 @@ export const Route = createFileRoute("/sitemap.xml")({
       GET: async () => {
         const all = [
           ...staticPaths.map(p => ({ path: p })),
-          ...temples.map(t => ({ path: `/temple/${t.slug}` })),
+          ...templeDirectory.map(t => ({ path: `/temple/${t.slug}` })),
         ];
         const xml = [
           `<?xml version="1.0" encoding="UTF-8"?>`,

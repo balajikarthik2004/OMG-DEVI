@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Compass, Search, MapPin, Users, Clock, ArrowRight } from "lucide-react";
 
-import { temples, templeThumb, statusLabel, type Temple } from "@/data/temples";
+import { templeDirectory, templeThumb, statusLabel } from "@/data/temples";
 import { SEVERITY_BANDS, severityFor } from "@/data/operations";
 import { formatCount } from "@/lib/currency";
 
@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_app/temples")({
   head: () => ({
     meta: [
       { title: "Explore Temples — OMG Devotee" },
-      { name: "description", content: "Browse every temple on the OMG Devotee platform with live crowd and timing information." },
+      { name: "description", content: "Browse temples on OMG Devotee for visiting hours and darshan guidance." },
     ],
   }),
   component: ExploreTemples,
@@ -23,16 +23,18 @@ function ExploreTemples() {
   const [state, setState] = useState("All");
 
   const states = useMemo(
-    () => ["All", ...Array.from(new Set(temples.map((x) => x.state)))],
+    () => ["All", ...Array.from(new Set(templeDirectory.map((x) => x.state)))],
     []
   );
 
   const results = useMemo(() => {
     const v = q.trim().toLowerCase();
-    return temples.filter((x) => {
+    return templeDirectory.filter((x) => {
       if (state !== "All" && x.state !== state) return false;
       if (!v) return true;
-      return [x.name, x.city, x.district, x.deity].some((f) => f.toLowerCase().includes(v));
+      const names = [x.name, x.city, x.district, x.deity];
+      if ("alias" in x) names.push(x.alias);
+      return names.some((f) => f.toLowerCase().includes(v));
     });
   }, [q, state]);
 
@@ -47,7 +49,7 @@ function ExploreTemples() {
             {t("Temples on OMG Devotee")}
           </h1>
           <p className="mt-2 max-w-xl text-sm text-slate-600">
-            {t("Live crowd, timings and darshan guidance for every temple on the platform.")}
+            {t("Find temples, visiting hours and darshan guidance.")}
           </p>
 
           <label className="relative mt-5 block max-w-md">
@@ -65,7 +67,7 @@ function ExploreTemples() {
           <div role="tablist" aria-label={t("State")} className="scrollbar-hide mt-4 flex gap-2 overflow-x-auto pb-1">
             {states.map((s) => {
               const active = state === s;
-              const count = s === "All" ? temples.length : temples.filter((x) => x.state === s).length;
+              const count = s === "All" ? templeDirectory.length : templeDirectory.filter((x) => x.state === s).length;
               return (
                 <button
                   key={s}
@@ -105,9 +107,11 @@ function ExploreTemples() {
   );
 }
 
-function TempleTile({ temple }: { temple: Temple }) {
+function TempleTile({ temple }: { temple: (typeof templeDirectory)[number] }) {
   const { t } = useTranslation();
-  const band = SEVERITY_BANDS.find((b) => b.key === severityFor(temple.crowdPct))!;
+  const band = "crowdPct" in temple
+    ? SEVERITY_BANDS.find((b) => b.key === severityFor(temple.crowdPct))
+    : undefined;
 
   return (
     <Link
@@ -119,14 +123,14 @@ function TempleTile({ temple }: { temple: Temple }) {
         className="relative aspect-[16/10] w-full"
         style={{ background: templeThumb(temple, "center 32%") }}
         role="img"
-        aria-label={t(temple.name)}
+        aria-label={"imageCaption" in temple ? `${t(temple.name)} · ${t(temple.imageCaption)}` : t(temple.name)}
       >
-        <span
+        {band && "crowdStatus" in temple && <span
           className={`absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-bold ${band.bg} ${band.text} ${band.border}`}
         >
           <span className={`h-1.5 w-1.5 rounded-full ${band.dot}`} />
           {t(statusLabel(temple.crowdStatus))}
-        </span>
+        </span>}
       </div>
       <div className="flex flex-1 flex-col p-4">
         <h3 className="line-clamp-2 font-serif text-[15px] font-bold leading-snug text-slate-900 transition-colors group-hover:text-[#0B2F25]">
@@ -138,14 +142,21 @@ function TempleTile({ temple }: { temple: Temple }) {
             {t(temple.city)}, {t(temple.state)}
           </span>
         </div>
-        <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1.5 text-[11px] font-semibold text-slate-600">
+        {"waitMin" in temple ? <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1.5 text-[11px] font-semibold text-slate-600">
           <span className="inline-flex items-center gap-1">
             <Users className="h-3.5 w-3.5 text-[#165B43]" /> {formatCount(temple.crowd)}
           </span>
           <span className="inline-flex items-center gap-1">
             <Clock className="h-3.5 w-3.5 text-[#165B43]" /> {temple.waitMin} {t("min")}
           </span>
-        </div>
+        </div> : (
+          <div className="mt-3 space-y-1 text-[11px] text-slate-600">
+            <p>{t(temple.alias)}</p>
+            <p className="flex items-center gap-1 font-semibold">
+              <Clock className="h-3.5 w-3.5 text-[#165B43]" /> {t("Darshan wait unavailable")}
+            </p>
+          </div>
+        )}
         <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-[#0B2F25]">
           {t("View details")}
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

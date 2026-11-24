@@ -40,7 +40,7 @@ function StoreIndex() {
           </span>
           <h1 className="font-serif text-3xl lg:text-4xl font-bold text-[#0B2F25] mt-3">{t("Temple Stores")}</h1>
           <p className="text-sm text-slate-600 mt-2 max-w-md">
-            {t("Purchase authentic prasadam, sacred idols, and merchandise directly from temple premises.")}
+            {t("Browse temple goods, pooja services, and offering enquiries.")}
           </p>
           <label className="relative block max-w-md mt-5">
             <span className="sr-only">{t("Search for a temple store...")}</span>

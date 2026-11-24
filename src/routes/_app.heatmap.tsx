@@ -1,9 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { RefreshCw, Maximize, Minimize, Maximize2, Flame, X, MapPin } from "lucide-react";
-import { temples } from "@/data/temples";
+import { templeDirectory, temples, type Temple } from "@/data/temples";
+import { penangTemple } from "@/data/penang-temple";
+import { PenangTempleMap } from "@/features/heatmap/components/PenangTempleMap";
 import { useHeatmapZones } from "@/features/heatmap/hooks/useHeatmapZones";
 import { useLiveCrowd } from "@/features/heatmap/hooks/useLiveCrowd";
 import { KpiRow, InsightsPanel, TipsPanel, GateTable, CrowdTrendChart } from "@/features/heatmap/components/LivePanels";
@@ -12,15 +14,58 @@ import { ZoneCapacityPanel } from "@/features/heatmap/components/ZoneCapacityPan
 import { TIRUVANNAMALAI_SLUG } from "@/data/tiruvannamalai";
 
 export const Route = createFileRoute("/_app/heatmap")({
-  head: () => ({ meta: [{ title: "Live Heatmap — OMG Smart Temple" }] }),
+  validateSearch: (search: Record<string, unknown>): { temple?: string } =>
+    typeof search.temple === "string" ? { temple: search.temple } : {},
+  head: () => ({ meta: [{ title: "Temple Map — OMG Smart Temple" }] }),
   component: HeatmapPage,
 });
 
 const shortName = (name: string) => name.replace(/\s+Temple$/i, "");
 
 function HeatmapPage() {
+  const { t } = useTranslation();
+  const { temple: slug } = Route.useSearch();
+  const temple = templeDirectory.find((entry) => entry.slug === slug) ?? temples[0];
+
+  if ("crowdPct" in temple) return <LiveHeatmap t={temple} />;
+
+  return (
+    <div className="min-h-screen bg-[#FAF6F0]">
+      <div className="mx-auto max-w-[1500px] space-y-5 px-4 pt-6 pb-10 lg:px-8">
+        <header>
+          <h1 className="font-serif text-2xl font-bold text-slate-900 lg:text-3xl">{t("Temple Map")}</h1>
+          <p className="mt-1 text-sm text-slate-600">{t(penangTemple.name)} · {t("George Town, Penang")}</p>
+        </header>
+        <TempleMapTabs selected={temple.slug} />
+        <PenangTempleMap directions={penangTemple.directions} parkingMap={penangTemple.parkingMap} translate={t} />
+      </div>
+    </div>
+  );
+}
+
+function TempleMapTabs({ selected }: { selected: string }) {
+  const { t } = useTranslation();
+
+  return (
+    <nav aria-label={t("Temple maps")} className="scrollbar-hide -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:px-0">
+      {templeDirectory.map((temple) => (
+        <Link
+          key={temple.id}
+          to="/heatmap"
+          search={{ temple: temple.slug }}
+          activeOptions={{ exact: true, includeSearch: true }}
+          aria-current={selected === temple.slug ? "page" : undefined}
+          className={`shrink-0 rounded-full border px-4 py-2 text-sm font-semibold transition-all ${selected === temple.slug ? "border-saffron bg-saffron text-white shadow-md shadow-saffron/20" : "border-slate-200 bg-white text-slate-600 hover:border-saffron/50 hover:text-saffron"}`}
+        >
+          {t(shortName(temple.name))}
+        </Link>
+      ))}
+    </nav>
+  );
+}
+
+function LiveHeatmap({ t }: { t: Temple }) {
   const { t: tStr } = useTranslation();
-  const [sel, setSel] = useState(temples[0].id);
   const [selectedZone, setSelectedZone] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [spinning, setSpinning] = useState(false);
@@ -30,11 +75,10 @@ function HeatmapPage() {
   const [showGates, setShowGates] = useState(true);
   const [showHistorical, setShowHistorical] = useState(false);
 
-  const t = temples.find((x) => x.id === sel)!;
   const { displayZones, mapImage } = useHeatmapZones(t);
   const live = useLiveCrowd(t, displayZones as any);
 
-  useEffect(() => setSelectedZone(null), [sel]);
+  useEffect(() => setSelectedZone(null), [t.id]);
 
   useEffect(() => {
     const onChange = () => setIsFullscreen(!!document.fullscreenElement);
@@ -92,23 +136,7 @@ function HeatmapPage() {
           </div>
         </header>
 
-        {/* Temple tabs */}
-        <div role="tablist" aria-label={tStr("Temples")} className="flex gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0 pb-1">
-          {temples.map((temple) => (
-            <button
-              key={temple.id}
-              type="button"
-              role="tab"
-              aria-selected={sel === temple.id}
-              onClick={() => setSel(temple.id)}
-              className={`shrink-0 text-sm font-semibold rounded-full px-4 py-2 border transition-all ${
-                sel === temple.id ? "bg-saffron text-white border-saffron shadow-md shadow-saffron/20" : "bg-white text-slate-600 border-slate-200 hover:border-saffron/50 hover:text-saffron"
-              }`}
-            >
-              {tStr(shortName(temple.name))}
-            </button>
-          ))}
-        </div>
+        <TempleMapTabs selected={t.slug} />
 
         <KpiRow
           totalToday={live.kpis.totalToday}

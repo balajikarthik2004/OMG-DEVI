@@ -21,7 +21,7 @@ export function StoreCard({ store }: { store: Store }) {
           className="w-full h-full object-cover object-[center_35%] transition-transform duration-500 group-hover:scale-105"
         />
         <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-white/90 backdrop-blur-sm px-2.5 py-1 text-xs font-bold text-slate-800 shadow-sm">
-          <Package className="w-3.5 h-3.5 text-[#C48437]" /> {store.products.length} {t("items")}
+          <Package className="w-3.5 h-3.5 text-[#C48437]" /> {store.mode === "enquiry" ? t("Pooja enquiries") : `${store.products.length} ${t("items")}`}
         </span>
       </div>
       <div className="flex flex-col flex-1 p-4">
@@ -29,7 +29,7 @@ export function StoreCard({ store }: { store: Store }) {
         <div className="flex items-center gap-1 text-xs text-slate-500 mt-1">
           <MapPin className="w-3.5 h-3.5 text-[#C48437] shrink-0" /> {t(store.city)}, {t(store.state)}
         </div>
-        <p className="text-xs text-slate-500 mt-2 line-clamp-2 flex-1">{t("Prasadam, pooja items and devotional merchandise with temple pickup.")}</p>
+        <p className="text-xs text-slate-500 mt-2 line-clamp-2 flex-1">{t(store.mode === "enquiry" ? store.description : "Prasadam, pooja items and devotional merchandise with temple pickup.")}</p>
         <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-[#0B2F25]">
           {t("Visit Store")} <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
         </span>

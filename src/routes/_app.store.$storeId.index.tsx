@@ -2,6 +2,7 @@ import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { getStoreById } from "@/data/store";
 import { ProductCard } from "@/features/store/components/ProductCard";
+import { PenangOfferings } from "@/features/store/components/PenangOfferings";
 import { ArrowLeft, ShoppingBag, MapPin, Package, Store as StoreIcon, ShieldCheck } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -19,6 +20,7 @@ function StoreDetails() {
   const { store } = Route.useLoaderData();
   const [category, setCategory] = useState("All");
   const name = store.name.replace(/ Official Store$/, "");
+  const isEnquiryStore = store.mode === "enquiry";
 
   const categories = useMemo(() => ["All", ...Array.from(new Set(store.products.map((p) => p.category)))], [store]);
   const products = category === "All" ? store.products : store.products.filter((p) => p.category === category);
@@ -38,19 +40,22 @@ function StoreDetails() {
             <ArrowLeft className="w-4 h-4" /> {t("Back to Stores")}
           </Link>
           <span className="mt-5 flex w-fit items-center gap-2 rounded-full bg-[#FAF6F0] border border-[#E8E2D5] px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-[#C48437]">
-            <StoreIcon className="w-4 h-4" /> {t("Official Temple Store")}
+            <StoreIcon className="w-4 h-4" /> {t(isEnquiryStore ? "Temple Store" : "Official Temple Store")}
           </span>
           <h1 className="font-serif text-3xl lg:text-4xl font-bold text-[#0B2F25] mt-3 max-w-xl">{t(name)}</h1>
-          <p className="text-sm text-slate-600 mt-2 max-w-md">{t("Purchase authentic prasadam, merchandise, and pooja items directly from the temple. Includes a temple pickup option for your convenience.")}</p>
+          <p className="text-sm text-slate-600 mt-2 max-w-md">{t(isEnquiryStore ? store.description : "Purchase authentic prasadam, merchandise, and pooja items directly from the temple. Includes a temple pickup option for your convenience.")}</p>
           <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-slate-700">
             <span className="inline-flex items-center gap-1.5 bg-white border border-[#E8E2D5] rounded-full px-3 py-1.5"><MapPin className="w-3.5 h-3.5 text-[#C48437]" /> {t(store.city)}, {t(store.state)}</span>
-            <span className="inline-flex items-center gap-1.5 bg-white border border-[#E8E2D5] rounded-full px-3 py-1.5"><Package className="w-3.5 h-3.5 text-[#C48437]" /> {store.products.length} {t("products")}</span>
-            <span className="inline-flex items-center gap-1.5 bg-white border border-[#E8E2D5] rounded-full px-3 py-1.5"><ShieldCheck className="w-3.5 h-3.5 text-[#C48437]" /> {t("Temple pickup available")}</span>
+            {!isEnquiryStore && <>
+              <span className="inline-flex items-center gap-1.5 bg-white border border-[#E8E2D5] rounded-full px-3 py-1.5"><Package className="w-3.5 h-3.5 text-[#C48437]" /> {store.products.length} {t("products")}</span>
+              <span className="inline-flex items-center gap-1.5 bg-white border border-[#E8E2D5] rounded-full px-3 py-1.5"><ShieldCheck className="w-3.5 h-3.5 text-[#C48437]" /> {t("Temple pickup available")}</span>
+            </>}
           </div>
         </div>
       </header>
 
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
+        {isEnquiryStore ? <PenangOfferings /> : <>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
           <h2 className="flex items-center gap-2 font-serif text-xl font-bold text-slate-900">
             <ShoppingBag className="w-5 h-5 text-[#C48437]" /> {t("Available Items")}
@@ -81,6 +86,7 @@ function StoreDetails() {
             <ProductCard key={product.id} storeId={store.id} product={product} />
           ))}
         </div>
+        </>}
       </div>
     </div>
   );

@@ -1,5 +1,7 @@
 import { temples } from "./temples";
 import type { Temple } from "./temples";
+import { penangTemple } from "./penang-temple";
+import { penangStoreId } from "./penang-visit";
 
 export interface Product {
   id: string;
@@ -25,6 +27,7 @@ export interface Store {
   state: string;
   city: string;
   products: Product[];
+  mode?: "enquiry";
 }
 
 const defaultProducts: Product[] = [
@@ -296,6 +299,19 @@ export const stores: Store[] = temples.map((temple) => {
     city: temple.city,
     products: specificProducts,
   };
+});
+
+stores.push({
+  id: penangStoreId,
+  templeId: penangTemple.id,
+  name: penangTemple.name,
+  description: "Waterfall Hilltop Temple pooja services and offering enquiries in Penang.",
+  image: penangTemple.image,
+  heroImage: penangTemple.image,
+  state: penangTemple.state,
+  city: penangTemple.city,
+  mode: "enquiry",
+  products: [],
 });
 
 export function getStoreById(storeId: string): Store | undefined {

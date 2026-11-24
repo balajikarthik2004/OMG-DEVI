@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Info, MapPin, Star, Accessibility, ChevronRight, Flame, Mountain, Landmark, Sparkles, ShieldAlert, Droplets, BookOpen, Footprints, TramFront } from "lucide-react";
 import { tiruvannamalaiFacts, ashtaLingams, tiruvannamalaiGallery } from "@/data/tiruvannamalai";
 import { trimbakeshwarFacts, trimbakeshwarSacredSpots, trimbakeshwarSpecialPoojas } from "@/data/trimbakeshwar";
+import { penangTemple } from "@/data/penang-temple";
 import {
   batuCavesFacts,
   batuCavesCaves,
@@ -16,6 +17,7 @@ import {
 
 export function TempleTabs({ t }: any) {
   const { t: tStr } = useTranslation();
+  const isPenang = t.slug === penangTemple.slug;
 
   const tabs = [
     { name: tStr("About"), icon: <Info className="w-3.5 h-3.5" />, colorClass: "text-blue-500" },
@@ -55,11 +57,23 @@ export function TempleTabs({ t }: any) {
         { n: "First Aid Post", i: "💊" }, { n: "Sarong Hire", i: "🧵" },
         { n: "Watch for Macaques", i: "🐒" }, { n: "Paid Parking", i: "🅿" },
       ]
-    : DEFAULT_FACILITIES;
+    : isPenang
+      ? [
+          { n: "More than 500 steps to the hilltop shrine", i: "🪜" },
+          { n: "Ganeshar shrine at the foot of the hill", i: "🛕" },
+          { n: "Temple car park", i: "🅿️" },
+        ]
+      : DEFAULT_FACILITIES;
 
   const nearbyPlaces = t.slug === 'batu-caves-murugan'
     ? batuCavesNearby.map(p => ({ n: p.name, d: p.distance, i: p.icon }))
-    : [
+    : isPenang
+      ? [
+          { n: "Arulmigu Sree Ganeshar Temple", d: "", i: "🛕" },
+          { n: "Penang Botanic Gardens", d: "", i: "🌿" },
+          { n: "Penang Municipal Park", d: "", i: "🌳" },
+        ]
+      : [
         { n: "Choultries", d: "0.3 km", i: "🏨" },
         { n: "Veg Restaurants", d: "0.5 km", i: "🍽" },
         { n: "ATM", d: "0.2 km", i: "🏧" },
@@ -104,8 +118,25 @@ export function TempleTabs({ t }: any) {
 
             <div className="text-sm text-slate-700 leading-relaxed font-medium whitespace-pre-wrap inline">
               {description}
-              <span className="text-blue-600 font-bold cursor-pointer ml-1 hover:underline">{tStr("See more")}</span>
+              {!isPenang && <span className="text-blue-600 font-bold cursor-pointer ml-1 hover:underline">{tStr("See more")}</span>}
             </div>
+
+            {isPenang && (
+              <section className="rounded-xl border border-orange-100 bg-orange-50/50 p-4">
+                <h3 className="flex items-center gap-2 font-bold text-slate-900">
+                  <Flame className="size-4 text-orange-600" /> {tStr("Thaipusam and annual festivals")}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-700">
+                  {tStr("The hilltop shrine is the final stop of Penang’s annual Thaipusam procession. Devotees climb to the temple carrying milk pots (paal kudam) or kavadi.")}
+                </p>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {penangTemple.festivals.map((festival) => (
+                    <li key={festival} className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700">{tStr(festival)}</li>
+                  ))}
+                </ul>
+                <a href={penangTemple.officialSite} target="_blank" rel="noreferrer" className="mt-3 inline-block text-xs font-semibold text-orange-800 underline">{tStr("Penang Hindu Endowments Board")}</a>
+              </section>
+            )}
 
             {t.slug === 'tiruvannamalai' && (
               <>
@@ -432,14 +463,23 @@ export function TempleTabs({ t }: any) {
                 <div className="w-10 h-10 bg-white rounded-lg shadow-sm flex items-center justify-center text-xl shrink-0 mr-3">{n.i}</div>
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-bold text-slate-800 truncate">{tStr(n.n)}</div>
-                  <div className="text-[10px] font-semibold text-slate-500 mt-0.5">{tStr("Distance")}: {n.d}</div>
+                  {n.d && <div className="text-[10px] font-semibold text-slate-500 mt-0.5">{tStr("Distance")}: {n.d}</div>}
                 </div>
               </div>
             ))}
           </div>
         )}
 
-        {tab === 3 && (
+        {tab === 3 && isPenang && (
+          <div className="space-y-2 text-sm text-slate-700">
+            <p>{tStr("Visitor reviews are available on Google Maps.")}</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Arulmigu+Balathandayuthapani+Temple%2C+Penang" target="_blank" rel="noreferrer" className="font-semibold text-orange-800 underline">
+              {tStr("Find visitor reviews on Google Maps")}
+            </a>
+          </div>
+        )}
+
+        {tab === 3 && !isPenang && (
           <div className="space-y-4">
             <div className="flex items-center gap-4 p-4 bg-orange-50/50 rounded-xl border border-orange-100/50">
               <div className="text-3xl font-serif font-bold text-slate-900 tracking-tight">4.3</div>
