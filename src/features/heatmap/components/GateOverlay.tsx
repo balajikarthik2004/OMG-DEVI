@@ -39,10 +39,10 @@ const GATE_POSITIONS: Record<string, { top: string; left: string; align: "left" 
   // Penang (Thaneermalai Shree Balathandayuthapani Devasthanam)
   "hilltop": { top: "27%", left: "64%", align: "right" },
   "old-shrine": { top: "48%", left: "41%", align: "left" },
-  "stairway": { top: "49%", left: "58%", align: "right" },
+  "penang-stairway": { top: "49%", left: "58%", align: "right" },
   "shiva": { top: "74%", left: "27%", align: "left" },
   "main-entrance": { top: "76%", left: "50%", align: "center" },
-  "parking": { top: "87%", left: "74%", align: "center" },
+  "penang-parking": { top: "87%", left: "74%", align: "center" },
 };
 
 /** Live entry/exit counters, matched to the admin centre's gate figures. */

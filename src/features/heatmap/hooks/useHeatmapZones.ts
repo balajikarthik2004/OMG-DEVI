@@ -91,11 +91,11 @@ export function useHeatmapZones(t: any) {
 
   const penangZones = [
     { id: "hilltop", kind: "place", name: tStr("Hilltop Murugan Temple"), pct: 78, advice: tStr("High crowd (78%). Hilltop complex & sanctum. Expected darshan wait ~35-45 mins.") },
-    { id: "stairway", kind: "place", name: tStr("Hillside Stairway"), pct: 64, advice: tStr("Moderate crowd (64%). 500+ steps uphill climb. Take shaded resting breaks.") },
+    { id: "penang-stairway", kind: "place", name: tStr("Hillside Stairway"), pct: 64, advice: tStr("Moderate crowd (64%). 500+ steps uphill climb. Take shaded resting breaks.") },
     { id: "old-shrine", kind: "place", name: tStr("Old Murugan Temple"), pct: 43, advice: tStr("Moderate crowd (43%). Mid-hill historic 1850 heritage shrine.") },
     { id: "shiva", kind: "place", name: tStr("Lord Shiva Statue"), pct: 25, advice: tStr("Foot of the hill. 8.23m Shiva statue courtyard is calm and peaceful.") },
     { id: "main-entrance", kind: "gate", name: tStr("Main Entrance"), pct: 30, advice: tStr("Low crowd (30%). Foothill entry gate and Rajagopuram moving smoothly.") },
-    { id: "parking", kind: "place", name: tStr("Temple Car Park"), pct: 68, advice: tStr("Approximate area. Parking is 68% full; 160 parking slots open.") },
+    { id: "penang-parking", kind: "place", name: tStr("Temple Car Park"), pct: 68, advice: tStr("Approximate area. Parking is 68% full; 160 parking slots open.") },
   ];
 
   const displayZones =
