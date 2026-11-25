@@ -148,7 +148,7 @@ export function AppShell() {
         className="z-50 hidden shrink-0 flex-col text-white print:hidden lg:flex w-[236px]"
         style={{ background: SIDEBAR_BG, boxShadow: "4px 0 24px rgba(0,0,0,0.14)" }}
       >
-        <div className="sticky top-0 flex h-screen w-full flex-col overflow-hidden">
+        <div className="sticky top-0 flex w-full flex-col overflow-hidden" style={{ height: "calc(100dvh / 0.9)" }}>
           {railContent(false)}
         </div>
       </aside>
