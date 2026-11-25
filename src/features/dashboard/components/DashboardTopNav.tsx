@@ -2,6 +2,7 @@ import { MapPin, ChevronDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { districts as allDistricts, temples, statesAndDistricts } from "@/data/temples";
 import { TopBarPortal } from "@/components/layout/topbar-slot";
+import { setGlobalActiveTempleSlug } from "@/hooks/use-active-temple";
 
 /**
  * The dashboard's State / District / Temple pickers.
@@ -122,7 +123,7 @@ export function DashboardTopNav({
             <div className="absolute left-0 top-full z-50 mt-2 w-72 overflow-hidden rounded-xl border border-border bg-white/95 backdrop-blur-lg shadow-xl ring-1 ring-black/5 animate-in fade-in slide-in-from-top-2">
               <div className="max-h-80 overflow-y-auto py-1">
                 <button
-                  onClick={() => { setActiveTempleId(0); setTempleOpen(false); }}
+                  onClick={() => { setActiveTempleId(0); setGlobalActiveTempleSlug(null); setTempleOpen(false); }}
                   className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${activeTempleId === 0
                     ? "bg-saffron/10 font-bold text-saffron"
                     : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"
@@ -138,7 +139,7 @@ export function DashboardTopNav({
                 }).map((templeItem) => (
                   <button
                     key={templeItem.id}
-                    onClick={() => { setActiveTempleId(templeItem.id); setTempleOpen(false); }}
+                    onClick={() => { setActiveTempleId(templeItem.id); setGlobalActiveTempleSlug(templeItem.slug); setTempleOpen(false); }}
                     className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors ${templeItem.id === activeTempleId
                       ? "bg-saffron/10 font-bold text-saffron"
                       : "font-medium text-foreground/80 hover:bg-saffron hover:text-white"

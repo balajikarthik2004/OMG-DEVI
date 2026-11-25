@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { temples } from "@/data/temples";
+import { getGlobalActiveTempleSlug } from "@/hooks/use-active-temple";
 
 import { DashboardTopNav } from "@/features/dashboard/components/DashboardTopNav";
 import { DashboardHeader } from "@/features/dashboard/components/DashboardHeader";
@@ -28,9 +29,15 @@ function Dashboard() {
   const [stateOpen, setStateOpen] = useState(false);
   const [districtOpen, setDistrictOpen] = useState(false);
   const [templeOpen, setTempleOpen] = useState(false);
-  // 0 = "no explicit choice yet", which falls through to temples[0] —
-  // Tiruvannamalai Arunachaleswarar, the temple this build is focused on.
-  const [activeTempleId, setActiveTempleId] = useState(0);
+  // Stored choice or 0 ("All temples")
+  const [activeTempleId, setActiveTempleId] = useState<number>(() => {
+    const slug = getGlobalActiveTempleSlug();
+    if (slug) {
+      const match = temples.find((t) => t.slug === slug);
+      if (match) return match.id;
+    }
+    return 0;
+  });
 
   const activeTemple = useMemo(
     () => temples.find((t) => t.id === activeTempleId) || temples[0],

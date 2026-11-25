@@ -134,3 +134,47 @@ export const MOBILE_BOTTOM_NAV: NavEntry[] = [
   MAIN_NAV[7], // Donations
   MAIN_NAV[8], // Temple Store
 ];
+
+/**
+ * Dynamically filter navigation so Girivalam is ONLY shown when Thiruvannamalai is chosen,
+ * and ensure Darshan Booking points to the active temple.
+ */
+export function getFilteredMainNav(isTiruvannamalai: boolean, activeSlug?: string | null): NavEntry[] {
+  return MAIN_NAV.filter((entry) => {
+    if (entry.to === "/girivalam" && !isTiruvannamalai) {
+      return false;
+    }
+    return true;
+  }).map((entry) => {
+    if (entry.label === "Darshan Booking") {
+      return {
+        ...entry,
+        to: activeSlug ? `/booking/${activeSlug}` : "/booking/palani-murugan",
+      };
+    }
+    return entry;
+  });
+}
+
+export function getFilteredMobileBottomNav(isTiruvannamalai: boolean, activeSlug?: string | null): NavEntry[] {
+  const main = getFilteredMainNav(isTiruvannamalai, activeSlug);
+  const dashboard = main.find((e) => e.to === "/") || MAIN_NAV[0];
+  const booking = main.find((e) => e.label === "Darshan Booking") || MAIN_NAV[5];
+  const donations = main.find((e) => e.to === "/donations") || MAIN_NAV[7];
+  const store = main.find((e) => e.to === "/store") || MAIN_NAV[8];
+
+  if (isTiruvannamalai) {
+    const girivalam = main.find((e) => e.to === "/girivalam") || MAIN_NAV[4];
+    return [dashboard, girivalam, booking, donations, store];
+  }
+
+  const explore = main.find((e) => e.to === "/temples") || MAIN_NAV[1];
+  return [dashboard, explore, booking, donations, store];
+}
+
+export function getFilteredQuickHelp(isTiruvannamalai: boolean): NavEntry[] {
+  if (isTiruvannamalai) return QUICK_HELP;
+  return QUICK_HELP.filter((entry) => {
+    return entry.to !== "/girivalam";
+  });
+}

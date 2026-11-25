@@ -14,21 +14,26 @@ import { OmWatermark } from "./OmWatermark";
 import { SidebarNavItem } from "./SidebarNavItem";
 import { TopBar } from "./TopBar";
 import { TopBarSlotProvider } from "./topbar-slot";
-import { MAIN_NAV, MOBILE_BOTTOM_NAV, type NavEntry } from "./nav-config";
+import { MAIN_NAV, MOBILE_BOTTOM_NAV, getFilteredMainNav, getFilteredMobileBottomNav, type NavEntry } from "./nav-config";
 import omLogo from "../../assets/logo.png";
 import sidebarArt from "../../assets/sidebar.png";
 import { CartWidget } from "@/features/store/components/CartWidget";
+import { useActiveTemple } from "@/hooks/use-active-temple";
 
 /** Exact dark forest green background from the devotee specification. */
 const SIDEBAR_BG = "#0B2F25";
 
 export function AppShell() {
   const { t } = useTranslation();
+  const { isTiruvannamalai, activeSlug } = useActiveTemple();
   const [drawerOpen, setDrawerOpen] = useState(false);
   // The live DOM node the top bar lends to pages that need their own controls.
   const [topBarSlot, setTopBarSlot] = useState<HTMLDivElement | null>(null);
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   const searchStr = useRouterState({ select: (r) => r.location.searchStr });
+
+  const currentMainNav = getFilteredMainNav(isTiruvannamalai, activeSlug);
+  const currentMobileBottomNav = getFilteredMobileBottomNav(isTiruvannamalai, activeSlug);
 
   const isActive = useCallback(
     (entry: NavEntry) => {
@@ -108,7 +113,7 @@ export function AppShell() {
           aria-label={t("Main navigation")}
           className="relative z-10 flex-1 space-y-1 overflow-y-auto px-3 py-1 [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden"
         >
-          {MAIN_NAV.map((entry) => (
+          {currentMainNav.map((entry) => (
             <SidebarNavItem
               key={entry.label}
               entry={entry}
@@ -239,7 +244,7 @@ export function AppShell() {
         aria-label={t("Primary")}
         className="fixed inset-x-0 bottom-0 z-50 grid h-14 grid-cols-5 border-t border-[#E9E2D8] bg-[#FFFDFC] shadow-lg print:hidden lg:hidden"
       >
-        {MOBILE_BOTTOM_NAV.map((entry) => {
+        {currentMobileBottomNav.map((entry) => {
           const Icon = entry.icon;
           const active = isActive(entry);
           return (

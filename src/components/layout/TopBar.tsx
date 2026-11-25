@@ -4,6 +4,7 @@ import { Home, ChevronRight, MapPin, Bell, Settings, Award, MessageCircle, LogOu
 
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { MAIN_NAV, QUICK_HELP } from "./nav-config";
+import { useActiveTemple } from "@/hooks/use-active-temple";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -47,6 +48,7 @@ function labelForPath(pathname: string): string | null {
  */
 export function TopBar({ slotRef }: { slotRef: (node: HTMLDivElement | null) => void }) {
   const { t } = useTranslation();
+  const { activeTemple } = useActiveTemple();
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   const label = labelForPath(pathname);
   // The dashboard fills the slot with its State / District / Temple pickers;
@@ -82,7 +84,7 @@ export function TopBar({ slotRef }: { slotRef: (node: HTMLDivElement | null) => 
       <div className="flex shrink-0 items-center gap-2">
         <span className="hidden items-center gap-1.5 rounded-full border border-[#E9E2D8] bg-[#FFFDFC] px-3 py-1.5 text-xs font-semibold text-[#202124] shadow-sm xl:inline-flex">
           <MapPin className="h-3.5 w-3.5 text-[#D99A32]" />
-          {t("Thiruvannamalai")}
+          {activeTemple ? t(activeTemple.city || activeTemple.name) : t("All Temples")}
         </span>
 
         <div className="rounded-full border border-[#E9E2D8] bg-[#FFFDFC] px-1 shadow-sm">

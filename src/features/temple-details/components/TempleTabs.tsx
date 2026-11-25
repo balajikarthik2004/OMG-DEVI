@@ -4,6 +4,7 @@ import { Info, MapPin, Star, Accessibility, ChevronRight, Flame, Mountain, Landm
 import { tiruvannamalaiFacts, ashtaLingams, tiruvannamalaiGallery } from "@/data/tiruvannamalai";
 import { trimbakeshwarFacts, trimbakeshwarSacredSpots, trimbakeshwarSpecialPoojas } from "@/data/trimbakeshwar";
 import { penangTemple } from "@/data/penang-temple";
+import { getTempleGallery } from "@/data/temple-galleries";
 import {
   batuCavesFacts,
   batuCavesCaves,
@@ -18,6 +19,7 @@ import {
 export function TempleTabs({ t }: any) {
   const { t: tStr } = useTranslation();
   const isPenang = t.slug === penangTemple.slug;
+  const gallery = getTempleGallery(t.slug);
 
   const tabs = [
     { name: tStr("About"), icon: <Info className="w-3.5 h-3.5" />, colorClass: "text-blue-500" },
@@ -175,35 +177,242 @@ export function TempleTabs({ t }: any) {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="font-bold text-slate-800 mb-2">{tStr("Photo Gallery")}</h3>
-                  <div className="flex gap-3 overflow-x-auto pb-2 snap-x">
-                    {tiruvannamalaiGallery.map(img => (
-                      <figure key={img.src} className="shrink-0 w-48 snap-start">
-                        <img src={img.src} alt={img.caption} loading="lazy" className="w-48 h-32 object-cover rounded-xl border border-slate-100" />
-                        <figcaption className="text-[10px] text-slate-500 mt-1 leading-snug">
-                          {tStr(img.caption)} · <a href={img.sourceUrl} target="_blank" rel="noreferrer" className="underline hover:text-slate-700">{img.author}, {img.license}</a>
-                        </figcaption>
-                      </figure>
-                    ))}
-                  </div>
-                </div>
+
               </>
             )}
 
             {t.slug === 'palani-murugan' && (
               <>
-                <div className="mt-4 bg-rose-50/50 p-4 rounded-xl border border-rose-100/50">
-                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5"><Flame className="w-4 h-4 text-rose-500" /> {tStr("Upcoming Festivals")}</h3>
-                  <div className="bg-white rounded-lg p-3 border border-rose-100 shadow-sm flex items-center justify-between">
-                    <div>
-                      <div className="font-bold text-rose-700 text-sm">{tStr("kanda Sashti & Soora Samharam")}</div>
-                      <div className="text-xs text-slate-500 mt-0.5">{tStr("The most significant annual observance of Lord Murugan's victory.")}</div>
+                {/* 1. Palani Kshetram Highlights */}
+                <div>
+                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4 text-amber-600" /> {tStr("Sacred Kshetram Highlights")}
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Kshetram Tier")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("3rd Arupadaiveedu")}</div>
                     </div>
-                    <div className="bg-rose-100 text-rose-800 text-xs font-bold px-3 py-1.5 rounded-lg text-center shrink-0 shadow-inner">
-                      {tStr("Nov 10")}<br />2026
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Presiding Idol")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("Navapashanam by Bogar")}</div>
+                    </div>
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Hill Access")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("670+ Steps · Winch & Rope Car")}</div>
+                    </div>
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("GI-Tag Prasadam")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("Palani Panchamirtham")}</div>
                     </div>
                   </div>
+                </div>
+
+                {/* 2. Upcoming Festivals */}
+                <div className="bg-rose-50/50 p-4 rounded-xl border border-rose-100/50">
+                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5"><Flame className="w-4 h-4 text-rose-500" /> {tStr("Upcoming Major Festivals")}</h3>
+                  <div className="space-y-2">
+                    <div className="bg-white rounded-lg p-3 border border-rose-100 shadow-sm flex items-center justify-between gap-3">
+                      <div>
+                        <div className="font-bold text-rose-700 text-sm">{tStr("Thaipusam & Panguni Uthiram")}</div>
+                        <div className="text-xs text-slate-500 mt-0.5">{tStr("Millions of devotees walk barefoot on Pada Yatra carrying Pal Kudam and silver kavadi to the hilltop sanctum.")}</div>
+                      </div>
+                      <div className="bg-rose-100 text-rose-800 text-xs font-bold px-3 py-1.5 rounded-lg text-center shrink-0 shadow-inner">
+                        {tStr("Thaipusam")}<br />{tStr("Jan / Feb")}
+                      </div>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 border border-rose-100 shadow-sm flex items-center justify-between gap-3">
+                      <div>
+                        <div className="font-bold text-rose-700 text-sm">{tStr("Kanda Sashti & Soora Samharam")}</div>
+                        <div className="text-xs text-slate-500 mt-0.5">{tStr("The grand 6-day festival commemorating Lord Murugan's victory at the sacred foothills of Palani.")}</div>
+                      </div>
+                      <div className="bg-rose-100 text-rose-800 text-xs font-bold px-3 py-1.5 rounded-lg text-center shrink-0 shadow-inner">
+                        {tStr("Nov 10")}<br />2026
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {t.slug === 'madurai-meenakshi' && (
+              <>
+                {/* 1. Meenakshi Amman Highlights */}
+                <div>
+                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4 text-amber-600" /> {tStr("Temple Architecture & Highlights")}
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Gateway Towers")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("14 Majestic Gopurams")}</div>
+                    </div>
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("South Rajagopuram")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("170 ft (52 m) Tallest")}</div>
+                    </div>
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Pillared Marvel")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("Hall of 1000 Pillars (985)")}</div>
+                    </div>
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Sacred Theertham")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("Golden Lotus Tank")}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Upcoming Chithirai Festival */}
+                <div className="bg-gradient-to-r from-amber-50 to-rose-50/60 p-4 rounded-xl border border-rose-200/80">
+                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5">
+                    <Flame className="w-4 h-4 text-rose-600" /> {tStr("Upcoming Chithirai Thiruvizha")}
+                  </h3>
+                  <div className="bg-white rounded-xl p-3.5 border border-rose-100 shadow-sm flex items-start justify-between gap-3">
+                    <div>
+                      <div className="font-bold text-rose-800 text-sm">{tStr("Meenakshi Thirukalyanam & Chariot Festival")}</div>
+                      <div className="text-xs text-slate-600 mt-1 leading-relaxed">
+                        {tStr("The celestial wedding of Goddess Meenakshi and Lord Sundareswarar, followed by Lord Kallazhagar's grand entry into the Vaigai River, witnessed by over a million pilgrims.")}
+                      </div>
+                    </div>
+                    <div className="bg-rose-100 text-rose-900 text-xs font-bold px-3 py-1.5 rounded-lg text-center shrink-0 border border-rose-200">
+                      {tStr("Chithirai")}<br />{tStr("April / May")}
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Darshan Tradition */}
+                <div className="rounded-xl border border-emerald-200 bg-emerald-50/70 p-3.5 text-xs text-emerald-950">
+                  <strong className="font-bold text-emerald-900 flex items-center gap-1.5 mb-1">
+                    <Info className="w-3.5 h-3.5 text-emerald-700" /> {tStr("Traditional Darshan Protocol")}
+                  </strong>
+                  <p className="text-[11px] text-emerald-900/90 leading-relaxed">
+                    {tStr("Devotees traditionally pay homage first to Goddess Meenakshi in her sanctum holding the sacred green parrot, before proceeding to the sanctum of Lord Sundareswarar and the Golden Lotus Tank.")}
+                  </p>
+                </div>
+              </>
+            )}
+
+            {t.slug === 'srirangam' && (
+              <>
+                {/* 1. Srirangam Kshetram Highlights */}
+                <div>
+                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4 text-amber-600" /> {tStr("Sacred Divya Desam Highlights")}
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Vaishnava Kshetram")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("1st of 108 Divya Desams")}</div>
+                    </div>
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Temple Complex")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("156 Acres · 7 Prakarams")}</div>
+                    </div>
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Rajagopuram")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("236 ft (72 m) Tallest in Asia")}</div>
+                    </div>
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Gopuram Count")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("21 Majestic Towers")}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Vaikunta Ekadasi Festival */}
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50/60 p-4 rounded-xl border border-indigo-200/80">
+                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5">
+                    <Flame className="w-4 h-4 text-indigo-600" /> {tStr("Upcoming Vaikunta Ekadasi")}
+                  </h3>
+                  <div className="bg-white rounded-xl p-3.5 border border-indigo-100 shadow-sm flex items-start justify-between gap-3">
+                    <div>
+                      <div className="font-bold text-indigo-900 text-sm">{tStr("Paramapada Vaasal Opening & 21-Day Utsavam")}</div>
+                      <div className="text-xs text-slate-600 mt-1 leading-relaxed">
+                        {tStr("The celestial door to Vaikuntam opens at dawn on Margazhi Ekadasi. Devotees pass through the sacred portal following Lord Namperumal clad in the Ratnangi diamond armour.")}
+                      </div>
+                    </div>
+                    <div className="bg-indigo-100 text-indigo-900 text-xs font-bold px-3 py-1.5 rounded-lg text-center shrink-0 border border-indigo-200">
+                      {tStr("Margazhi")}<br />{tStr("Dec / Jan")}
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {t.slug === 'rameswaram' && (
+              <>
+                {/* 1. Rameswaram Jyotirlinga Highlights */}
+                <div>
+                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4 text-amber-600" /> {tStr("Jyotirlinga & Theertham Highlights")}
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Sacred Pilgrimage")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("12 Jyotirlinga & Char Dham")}</div>
+                    </div>
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Sacred Wells")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("22 Holy Theerthams")}</div>
+                    </div>
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Grand Corridor")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("1,212 Pillars (Longest)")}</div>
+                    </div>
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Presiding Lingam")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("Ramalinga consecrated by Sita")}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. 22 Holy Theerthams Snanam */}
+                <div className="bg-sky-50/60 p-4 rounded-xl border border-sky-200/80">
+                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5">
+                    <Droplets className="w-4 h-4 text-sky-600" /> {tStr("Theertha Snanam (Holy Bathing Ritual)")}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {tStr("The sacred pilgrimage commences with a purification dip in Agni Theertham (Bay of Bengal) followed by bathing in the 22 interior temple wells—including Mahalakshmi, Gayatri, and Kodi Theertham—believed to absolve all sins.")}
+                  </p>
+                </div>
+              </>
+            )}
+
+            {t.slug === 'dallas-arulmigu-mariamman-usa' && (
+              <>
+                {/* 1. Dallas Mariamman Highlights */}
+                <div>
+                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4 text-amber-600" /> {tStr("North American Heritage Highlights")}
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Location")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("Carrollton / Dallas, Texas")}</div>
+                    </div>
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Presiding Deity")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("Arulmigu Mariamman")}</div>
+                    </div>
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Tradition")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("Agamic South Indian Worship")}</div>
+                    </div>
+                    <div className="bg-amber-50/40 border border-amber-100/80 rounded-xl p-3">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Community")}</div>
+                      <div className="text-xs font-bold text-slate-800 mt-1">{tStr("Diaspora Annadhanam & Poojas")}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Annual Aadi Festival */}
+                <div className="bg-rose-50/60 p-4 rounded-xl border border-rose-200/80">
+                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5">
+                    <Flame className="w-4 h-4 text-rose-600" /> {tStr("Annual Aadi Thiruvizha")}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {tStr("The auspicious Tamil month of Aadi brings grand abhishekam with milk, turmeric and rosewater, special koozh varthal distribution, and community procession for the North Texas devotee family.")}
+                  </p>
                 </div>
               </>
             )}
@@ -296,7 +505,7 @@ export function TempleTabs({ t }: any) {
 
             {t.slug === 'batu-caves-murugan' && (
               <>
-                {/* 1. Key facts */}
+                {/* 1. Key Highlights */}
                 <div>
                   <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5">
                     <Sparkles className="w-4 h-4 text-amber-600" /> {tStr("Temple at a Glance")}
@@ -311,135 +520,92 @@ export function TempleTabs({ t }: any) {
                   </div>
                 </div>
 
-                {/* 2. Thaipusam */}
-                <div className="bg-gradient-to-r from-amber-50 to-orange-50/60 p-4 rounded-xl border border-amber-200/80">
-                  <div className="flex items-start justify-between gap-3 mb-2">
-                    <h3 className="font-bold text-slate-800 flex items-center gap-1.5">
+                {/* 2. Thaipusam Highlight */}
+                <div className="bg-gradient-to-r from-amber-50 to-orange-50/60 p-4 rounded-xl border border-amber-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div>
+                    <h3 className="font-bold text-slate-800 flex items-center gap-1.5 text-sm">
                       <Flame className="w-4 h-4 text-amber-600" /> {tStr(batuCavesThaipusam.name)}
                     </h3>
-                    <div className="bg-amber-100/80 text-amber-900 text-xs font-bold px-3 py-1.5 rounded-lg text-center shrink-0 border border-amber-300">
-                      {tStr("Next")}<br />{batuCavesThaipusam.nextDate}
-                    </div>
-                  </div>
-                  <p className="text-xs text-slate-600 leading-relaxed">{tStr(batuCavesThaipusam.summary)}</p>
-                  <ul className="mt-3 space-y-1.5">
-                    {batuCavesThaipusam.highlights.map((h) => (
-                      <li key={h} className="flex gap-2 text-[11px] text-slate-700 leading-relaxed">
-                        <ChevronRight className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
-                        <span>{tStr(h)}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-3 grid sm:grid-cols-2 gap-2">
-                    <div className="bg-white rounded-lg border border-amber-100 p-2.5">
-                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Festival crowd")}</div>
-                      <div className="text-[11px] font-semibold text-slate-800 mt-0.5">{tStr(batuCavesThaipusam.crowd)}</div>
-                    </div>
-                    <div className="bg-white rounded-lg border border-amber-100 p-2.5">
-                      <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700/80">{tStr("Public holiday")}</div>
-                      <div className="text-[11px] font-semibold text-slate-800 mt-0.5">{tStr(batuCavesThaipusam.publicHoliday)}</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 3. The caves and shrines */}
-                <div className="bg-slate-50/80 p-4 rounded-xl border border-slate-200/70">
-                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5">
-                    <Mountain className="w-4 h-4 text-emerald-600" /> {tStr("The Caves & Shrines of Batu Hill")}
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-                    {batuCavesCaves.map((c) => (
-                      <div key={c.name} className="bg-white rounded-xl border border-slate-200/60 p-3 shadow-2xs">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="font-bold text-xs text-slate-900">{tStr(c.name)}</span>
-                          <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200/60 shrink-0">
-                            {tStr(c.category)}
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">{tStr(c.description)}</p>
-                        <div className="text-[10px] font-semibold text-slate-500 mt-1.5 flex items-start gap-1">
-                          <Footprints className="w-3 h-3 shrink-0 mt-0.5 text-slate-400" /> {tStr(c.access)}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 4. Vow offerings */}
-                <div className="bg-orange-50/40 p-4 rounded-xl border border-orange-200/60">
-                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5">
-                    <BookOpen className="w-4 h-4 text-orange-600" /> {tStr("Vazhipadu — Vow Offerings & Poojas")}
-                  </h3>
-                  <div className="space-y-2">
-                    {batuCavesOfferings.map((o) => (
-                      <div key={o.name} className="bg-white rounded-xl border border-orange-100 p-3 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div className="min-w-0 flex-1">
-                          <div className="font-bold text-xs text-slate-900">
-                            {tStr(o.name)} <span className="font-medium text-slate-400">· {o.tamilName}</span>
-                          </div>
-                          <div className="text-[11px] text-slate-600 mt-0.5 leading-snug">{tStr(o.significance)}</div>
-                          <div className="text-[10px] text-slate-500 mt-1 italic">{tStr(o.note)}</div>
-                        </div>
-                        <div className="shrink-0 text-[11px]">
-                          <span className="font-semibold text-orange-800 bg-orange-100/70 px-2 py-0.5 rounded-md whitespace-nowrap">{o.duration}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 5. Getting there */}
-                <div className="bg-sky-50/50 p-4 rounded-xl border border-sky-200/60">
-                  <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-1.5">
-                    <TramFront className="w-4 h-4 text-sky-600" /> {tStr("Getting to Batu Caves")}
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    {batuCavesGettingThere.map((g) => (
-                      <div key={g.mode} className="bg-white rounded-xl border border-sky-100 p-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="font-bold text-xs text-slate-900">{tStr(g.mode)}</span>
-                          <span className="text-[10px] font-bold text-sky-700 bg-sky-50 border border-sky-200/70 px-2 py-0.5 rounded-md shrink-0">{g.time}</span>
-                        </div>
-                        <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">{tStr(g.detail)}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 6. Visitor guidelines */}
-                <div className="rounded-xl border border-amber-300 bg-amber-50/80 p-3.5 text-xs text-amber-900 flex items-start gap-2.5">
-                  <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
-                  <div className="leading-relaxed">
-                    <strong className="font-bold">{tStr("Before You Climb the 272 Steps")}</strong>
-                    <ul className="mt-1.5 space-y-1">
-                      {batuCavesGuidelines.map((g) => (
-                        <li key={g} className="flex gap-1.5">
-                          <span className="text-amber-700">•</span>
-                          <span>{tStr(g)}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="mt-2 text-[11px] text-amber-800/80 italic">
-                      {tStr("The Devasthanam does not publish a fixed pooja timetable. The timings shown on this page follow widely reported temple hours — confirm with the temple office before planning around them.")}
+                    <p className="text-xs text-slate-600 mt-1 leading-relaxed max-w-xl">
+                      {tStr("Malaysia’s foremost Murugan pilgrimage, drawing over a million devotees who carry paal kudam and vel kavadi up the 272 steps.")}
                     </p>
                   </div>
+                  <div className="bg-amber-100/80 text-amber-900 text-xs font-bold px-3 py-1.5 rounded-lg text-center shrink-0 border border-amber-300">
+                    <span className="text-[10px] uppercase text-amber-700 font-semibold">{tStr("Next")}</span>
+                    <div className="font-bold text-slate-800">{batuCavesThaipusam.nextDate}</div>
+                  </div>
                 </div>
 
-                {/* 7. Gallery */}
-                <div>
-                  <h3 className="font-bold text-slate-800 mb-2">{tStr("Photo Gallery")}</h3>
-                  <div className="flex gap-3 overflow-x-auto pb-2 snap-x">
-                    {batuCavesGallery.map(img => (
-                      <figure key={img.src} className="shrink-0 w-48 snap-start">
-                        <img src={img.src} alt={img.caption} loading="lazy" className="w-48 h-32 object-cover rounded-xl border border-slate-100" />
-                        <figcaption className="text-[10px] text-slate-500 mt-1 leading-snug">
-                          {tStr(img.caption)} · <a href={img.sourceUrl} target="_blank" rel="noreferrer" className="underline hover:text-slate-700">{img.author}, {img.license}</a>
-                        </figcaption>
-                      </figure>
-                    ))}
+                {/* 3. Essentials & Getting There */}
+                <div className="grid sm:grid-cols-2 gap-2.5">
+                  <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-3.5 text-xs text-amber-950">
+                    <strong className="font-bold text-amber-900 flex items-center gap-1.5 mb-1.5">
+                      <ShieldAlert className="w-3.5 h-3.5 text-amber-700" /> {tStr("Visitor Essentials")}
+                    </strong>
+                    <ul className="space-y-1 text-[11px] text-amber-900/90 leading-relaxed">
+                      <li>• {tStr("Modest attire required — knees and shoulders covered (sarongs rentable at gate).")}</li>
+                      <li>• {tStr("Climb early morning (7–9 AM) to avoid midday sun and stairway queues.")}</li>
+                      <li>• {tStr("Keep food and drink concealed from friendly macaques along the steps.")}</li>
+                    </ul>
+                  </div>
+
+                  <div className="rounded-xl border border-sky-200 bg-sky-50/70 p-3.5 text-xs text-sky-950">
+                    <strong className="font-bold text-sky-900 flex items-center gap-1.5 mb-1.5">
+                      <TramFront className="w-3.5 h-3.5 text-sky-600" /> {tStr("Getting to Batu Caves")}
+                    </strong>
+                    <ul className="space-y-1 text-[11px] text-sky-900/90 leading-relaxed">
+                      <li>• <span className="font-semibold text-slate-800">{tStr("KTM Komuter:")}</span> {tStr("Direct train from KL Sentral to Batu Caves station (30 mins).")}</li>
+                      <li>• <span className="font-semibold text-slate-800">{tStr("Taxi / Ride-hail:")}</span> {tStr("15 km north of central KL via MRR2 / Jalan Kuching.")}</li>
+                      <li>• <span className="font-semibold text-slate-800">{tStr("Parking:")}</span> {tStr("On-site parking lots available at the temple entrance.")}</li>
+                    </ul>
                   </div>
                 </div>
               </>
+            )}
+
+
+            {/* Universal Photo Gallery for all temples */}
+            {gallery && gallery.length > 0 && (
+              <div className="pt-2">
+                <h3 className="font-bold text-slate-800 mb-2.5 flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-amber-500" />
+                  {tStr("Photo Gallery")}
+                  <span className="text-[11px] font-normal text-slate-400">({gallery.length})</span>
+                </h3>
+                <div className="flex gap-3 overflow-x-auto pb-2 snap-x scrollbar-thin">
+                  {gallery.map((img) => (
+                    <figure key={img.src} className="shrink-0 w-52 snap-start group">
+                      <div className="overflow-hidden rounded-xl border border-slate-100 bg-slate-50 shadow-2xs">
+                        <img
+                          src={img.src}
+                          alt={img.caption}
+                          loading="lazy"
+                          className="w-52 h-32 object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
+                      <figcaption className="text-[10px] text-slate-600 mt-1.5 leading-snug">
+                        <span className="font-semibold text-slate-800">{tStr(img.caption)}</span>
+                        {img.author && (
+                          <div className="text-[9px] text-slate-400 mt-0.5 truncate">
+                            {img.sourceUrl ? (
+                              <a
+                                href={img.sourceUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="hover:underline hover:text-slate-600"
+                              >
+                                {img.author} · {img.license}
+                              </a>
+                            ) : (
+                              `${img.author} · ${img.license}`
+                            )}
+                          </div>
+                        )}
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </div>
             )}
 
           </div>

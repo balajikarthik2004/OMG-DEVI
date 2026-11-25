@@ -8,15 +8,16 @@ import { DonationSummary } from "@/features/donations/components/DonationSummary
 import { DonationReceipt } from "@/features/donations/components/DonationReceipt";
 import { CAUSES } from "@/features/donations/constants";
 import { toast } from "sonner";
+import { useActiveTemple } from "@/hooks/use-active-temple";
 
 export const Route = createFileRoute("/_app/donations")({
   head: () => ({
     meta: [
-      { title: "Make an Offering — Arulmigu Arunachaleswarar Temple" },
+      { title: "Make an Offering — Sacred Temples & Annadhanam | OMG Devotee" },
       {
         name: "description",
         content:
-          "Support temple services, annadhanam and sacred rituals at Tiruvannamalai Arunachaleswarar Temple with instant 80G tax receipt.",
+          "Support temple services, annadhanam and sacred rituals across major temples with instant 80G tax receipt.",
       },
     ],
   }),
@@ -25,7 +26,8 @@ export const Route = createFileRoute("/_app/donations")({
 
 function DonationsPage() {
   const { t } = useTranslation();
-  const [temple, setTemple] = useState("tiruvannamalai");
+  const { activeSlug } = useActiveTemple();
+  const [temple, setTemple] = useState(() => activeSlug || "tiruvannamalai");
   const [cause, setCause] = useState("general");
   const [frequency, setFrequency] = useState("one-time");
   const [recurringInterval, setRecurringInterval] = useState("monthly");

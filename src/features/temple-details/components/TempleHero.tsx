@@ -1,32 +1,53 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, Share2, Bookmark, MapPin, X, MessageCircle, Twitter, Facebook, Instagram, Link2, CheckCircle2, Flame } from "lucide-react";
+import {
+  ArrowLeft,
+  Share2,
+  Bookmark,
+  MapPin,
+  X,
+  MessageCircle,
+  Twitter,
+  Facebook,
+  Instagram,
+  Link2,
+  CheckCircle2,
+  Flame,
+  ShoppingBag,
+  Sparkles,
+  Ticket,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
-import muruganImg from "@/assets/murugan.png";
-import meenakshiImg from "@/assets/meenakshi.png";
+import palani5Img from "@/assets/palani5.png";
+import maduraiImg from "@/assets/Madurai.png";
+import srirangamImg from "@/assets/Srirangam.png";
+import rameswaramImg from "@/assets/Rameswaram.png";
 import dallasMariammanImg from "@/assets/dallas-mariamman.png";
 
 const bgImages: Record<string, string> = {
   "tiruvannamalai": "/temples/tiruvannamalai/panorama.jpg",
-  "palani-murugan": muruganImg,
-  "madurai-meenakshi": meenakshiImg,
+  "palani-murugan": palani5Img,
+  "madurai-meenakshi": maduraiImg,
+  "srirangam": srirangamImg,
+  "rameswaram": rameswaramImg,
   "dallas-arulmigu-mariamman-usa": dallasMariammanImg,
   "trimbakeshwar": "/temples/trimbakeshwar_banner.jpg",
   "batu-caves-murugan": "/temples/batu-caves/banner.jpg",
+  "penang-balathandayuthapani": "/temples/penang-balathandayuthapani/banner.webp",
 };
 
-// Per-temple object-position overrides (helps low-res images show the best area)
+// Per-temple object-position overrides (centers key architectural elements)
 const bgPositions: Record<string, string> = {
-  "tiruvannamalai": "center 40%",
-  "palani-murugan": "center 20%",
-  "madurai-meenakshi": "center 20%",
+  "tiruvannamalai": "center 38%",
+  "palani-murugan": "center 30%",
+  "madurai-meenakshi": "center 28%",
+  "srirangam": "center 32%",
+  "rameswaram": "center 35%",
   "dallas-arulmigu-mariamman-usa": "center 20%",
   "trimbakeshwar": "center 35%",
-  // Keeps the golden Murugan statue and the dark cliff face in the 240px band,
-  // which also gives the overlaid title something to read against.
-  "batu-caves-murugan": "center 28%",
-  "penang-balathandayuthapani": "center 8%",
+  "batu-caves-murugan": "center 32%",
+  "penang-balathandayuthapani": "center 18%",
 };
 
 /** `state` holds a country for temples outside India; keep this in sync with temples.ts. */
@@ -36,13 +57,13 @@ export function TempleHero({ t }: any) {
   const { t: tStr } = useTranslation();
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const bannerSrc = bgImages[t.slug] || t.image;
   const hasBgImg = !!bannerSrc;
-  // International temples store a country in `state` (USA, Malaysia, …).
   const isIndianTemple = !OVERSEAS_STATES.has(t.state);
 
   const copyLink = () => {
-    navigator.clipboard.writeText(`https://omg-devotee.vercel.app/temple/${t.slug}`);
+    navigator.clipboard.writeText(window.location.href);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };
@@ -50,45 +71,130 @@ export function TempleHero({ t }: any) {
   return (
     <>
       <div
-        className="relative h-[240px] lg:h-[260px] overflow-hidden"
+        className="relative h-[320px] sm:h-[360px] lg:h-[400px] w-full overflow-hidden shadow-lg"
         style={{ background: `linear-gradient(135deg, ${t.gradientFrom}, ${t.color})` }}
       >
-        {/* Banner image */}
+        {/* Banner image with subtle zoom transition */}
         {hasBgImg && (
           <img
             src={bannerSrc}
             alt={t.imageCaption ? `${tStr(t.name)} · ${tStr(t.imageCaption)}` : tStr(t.name)}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
             style={{ objectPosition: bgPositions[t.slug] ?? "center 30%" }}
           />
         )}
-        {hasBgImg && <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-black/15" />}
-        {!hasBgImg && <svg viewBox="0 0 100 100" className="absolute -right-10 -bottom-10 w-48 h-48 text-white opacity-[0.08]"><text x="50" y="72" textAnchor="middle" fontSize="80" fill="currentColor" fontFamily="Noto Serif">ॐ</text></svg>}
 
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 z-10">
-          <Link to="/" className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white hover:bg-white/30 transition-colors"><ArrowLeft className="w-5 h-5" /></Link>
-          <div className="flex gap-2">
-            <button onClick={() => setIsShareOpen(true)} className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white hover:bg-white/30 transition-colors"><Share2 className="w-4 h-4" /></button>
-            <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white hover:bg-white/30 transition-colors"><Bookmark className="w-4 h-4" /></button>
+        {/* Multi-layered cinematic gradient overlays for high text contrast */}
+        {hasBgImg && (
+          <>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/45 to-black/25" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/35" />
+          </>
+        )}
+
+        {!hasBgImg && (
+          <svg viewBox="0 0 100 100" className="absolute -right-10 -bottom-10 w-48 h-48 text-white opacity-[0.08]">
+            <text x="50" y="72" textAnchor="middle" fontSize="80" fill="currentColor" fontFamily="Noto Serif">ॐ</text>
+          </svg>
+        )}
+
+        {/* Top Floating Controls */}
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 sm:p-6 z-10">
+          <div className="flex items-center gap-2.5">
+            <Link
+              to="/"
+              className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/60 transition-all shadow-sm"
+              title={tStr("Back to Temples")}
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </Link>
+            <div className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-amber-300 text-xs font-bold tracking-wide shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span>{tStr(t.tier || "Major Kshetram")}</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Link
+              to="/heatmap"
+              search={{ temple: t.slug }}
+              title={tStr("Live Crowd Heatmap")}
+              className="h-10 px-3.5 rounded-full bg-gradient-to-r from-orange-500 to-rose-600 hover:from-orange-600 hover:to-rose-700 text-white backdrop-blur flex items-center gap-1.5 text-xs font-bold transition-all shadow-md hover:scale-105"
+            >
+              <Flame className="w-4 h-4 text-white" />
+              <span className="hidden sm:inline">{tStr("Live Heatmap")}</span>
+            </Link>
+
+            <button
+              onClick={() => setIsShareOpen(true)}
+              className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/60 transition-all shadow-sm cursor-pointer"
+              title={tStr("Share Temple")}
+            >
+              <Share2 className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={() => setIsBookmarked(!isBookmarked)}
+              className={`w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all shadow-sm cursor-pointer ${
+                isBookmarked ? "text-amber-400 bg-black/60" : "text-white hover:bg-black/60"
+              }`}
+              title={tStr("Bookmark")}
+            >
+              <Bookmark className={`w-4 h-4 ${isBookmarked ? "fill-amber-400" : ""}`} />
+            </button>
           </div>
         </div>
-        <div className="absolute bottom-0 inset-x-0 p-5 lg:p-8 text-white z-10">
-          <h1 className="font-serif text-3xl lg:text-4xl font-semibold leading-tight drop-shadow-lg">{tStr(t.name)}</h1>
-          <div className="text-sm opacity-90 mt-1 drop-shadow-md">{tStr(t.established || "Ancient temple")} · {tStr(t.tier || "Major Kshetram")}</div>
-          {/* For temples outside India `district` holds a state/region, so the
-              literal "District" suffix only applies to the Indian records. */}
-          <div className="text-sm opacity-90 flex items-center gap-1 mt-1 drop-shadow-md">
-            <MapPin className="w-4 h-4" /> {tStr(t.city)}, {tStr(t.district)}
-            {isIndianTemple ? ` ${tStr("District")}` : `, ${tStr(t.state)}`}
+
+        {/* Bottom Hero Info */}
+        <div className="absolute bottom-0 inset-x-0 p-5 sm:p-7 lg:p-8 text-white z-10">
+          <div className="sm:hidden mb-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-amber-300 text-[11px] font-bold">
+            <Sparkles className="w-3 h-3 text-amber-400" />
+            <span>{tStr(t.tier || "Major Kshetram")}</span>
           </div>
-          <div className="mt-3 flex items-center gap-2">
+
+          <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight drop-shadow-md">
+            {tStr(t.name)}
+          </h1>
+
+          <div className="text-xs sm:text-sm font-semibold text-amber-200/90 flex items-center gap-1.5 mt-1.5 drop-shadow-sm">
+            <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <span>
+              {tStr(t.city)}, {tStr(t.district)}
+              {isIndianTemple ? ` ${tStr("District")}` : `, ${tStr(t.state)}`}
+            </span>
+            <span className="opacity-60">·</span>
+            <span className="text-slate-300">{tStr(t.established || "Ancient Heritage")}</span>
+          </div>
+
+          {/* Action pills row: Store & VIP Darshan shortcuts */}
+          <div className="mt-3.5 flex flex-wrap items-center gap-2">
             <Link
               to="/store/$storeId"
               params={{ storeId: `store-${t.slug}` }}
-              className="inline-flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur-md px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-white/30 border border-white/25 shadow-sm transition-all hover:scale-105"
+              className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/25 backdrop-blur-md px-3.5 py-1.5 text-xs font-bold text-amber-200 hover:bg-amber-500/35 border border-amber-300/40 shadow-xs transition-all hover:scale-105"
             >
-              <ShoppingBag className="w-3.5 h-3.5 text-amber-300" /> {tStr("Temple Store")}
+              <ShoppingBag className="w-3.5 h-3.5 text-amber-300" />
+              <span>{tStr("Temple Store")}</span>
             </Link>
+
+            <Link
+              to="/booking/$slug"
+              params={{ slug: t.slug }}
+              className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/25 backdrop-blur-md px-3.5 py-1.5 text-xs font-bold text-emerald-200 hover:bg-emerald-500/35 border border-emerald-300/40 shadow-xs transition-all hover:scale-105"
+            >
+              <Ticket className="w-3.5 h-3.5 text-emerald-300" />
+              <span>{tStr("VIP Darshan")}</span>
+            </Link>
+
+            <div className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-slate-200 text-xs font-medium">
+              <span>🛕</span>
+              <span>{tStr("Agamic Rituals")}</span>
+            </div>
+
+            <div className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-slate-200 text-xs font-medium">
+              <span>✨</span>
+              <span>{tStr("Live Queue Telemetry")}</span>
+            </div>
           </div>
         </div>
       </div>

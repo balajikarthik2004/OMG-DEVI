@@ -30,8 +30,8 @@ export const Route = createFileRoute("/_app/temple/$slug")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.temple.name} — Live crowd, AI best time | OMG Smart Temple` },
-      { name: "description", content: `Live crowd, parking and AI-recommended visit times for ${loaderData?.temple.name}.` },
+      { title: `${loaderData?.temple?.name ?? "Temple"} — Live crowd, AI best time | OMG Smart Temple` },
+      { name: "description", content: `Live crowd, parking and AI-recommended visit times for ${loaderData?.temple?.name ?? "the temple"}.` },
     ],
   }),
   notFoundComponent: () => <div className="p-12 text-center text-muted-foreground">Temple not found, devotee 🙏</div>,

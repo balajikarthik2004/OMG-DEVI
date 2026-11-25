@@ -32,6 +32,7 @@ import {
   type PoojaFestival,
   type OfferingItem,
 } from "@/data/poojas-data";
+import { useActiveTemple } from "@/hooks/use-active-temple";
 
 export const Route = createFileRoute("/_app/poojas")({
   validateSearch: (search: Record<string, unknown>) => {
@@ -40,7 +41,7 @@ export const Route = createFileRoute("/_app/poojas")({
       tab: (search.tab as string) || "poojas",
     };
   },
-  head: () => ({ meta: [{ title: "Pooja & Seva — Thiruvanamalai Arunachaleswarar Temple" }] }),
+  head: () => ({ meta: [{ title: "Pooja & Seva — Sacred Temple Offerings | OMG Devotee" }] }),
   component: PoojaPage,
 });
 
@@ -48,6 +49,7 @@ type TabType = "poojas" | "archana" | "prasadam" | "festivals" | "nithya";
 
 function PoojaPage() {
   const { t } = useTranslation();
+  const { activeTemple } = useActiveTemple();
   const search = Route.useSearch();
   const navigate = useNavigate();
 
@@ -143,7 +145,9 @@ function PoojaPage() {
                 {t("Pooja & Seva")}
               </h1>
               <p className="mt-1 text-xs font-medium text-slate-600 sm:text-sm">
-                {t("Book temple poojas, sevas and offerings at Thiruvanamalai Arunachaleswarar Temple")}
+                {activeTemple
+                  ? `${t("Book temple poojas, sevas and offerings at")} ${t(activeTemple.name)}`
+                  : t("Book temple poojas, sevas and sacred offerings across major temples")}
               </p>
             </div>
           </div>

@@ -6,8 +6,24 @@ import { ArrowRight, Users, TrendingUp, Workflow, CalendarClock, Landmark, Chevr
 import type { Temple } from "@/data/temples";
 import { templeStats } from "../utils";
 
+import palani5Img from "@/assets/palani5.png";
+import maduraiImg from "@/assets/Madurai.png";
+import srirangamImg from "@/assets/Srirangam.png";
+import rameswaramImg from "@/assets/Rameswaram.png";
+import dallasMariammanImg from "@/assets/dallas-mariamman.png";
+
 // Tall gopuram photos read best in the banner; fall back to the temple's card/thumb image.
-const HERO: Record<string, string> = { tiruvannamalai: "/temples/tiruvannamalai/gopuram-sky.jpg" };
+const HERO: Record<string, string> = {
+  tiruvannamalai: "/temples/tiruvannamalai/gopuram-sky.jpg",
+  "palani-murugan": palani5Img,
+  "madurai-meenakshi": maduraiImg,
+  "srirangam": srirangamImg,
+  "rameswaram": rameswaramImg,
+  "dallas-arulmigu-mariamman-usa": dallasMariammanImg,
+  "trimbakeshwar": "/temples/trimbakeshwar/banner.jpg",
+  "batu-caves-murugan": "/temples/batu-caves/banner.jpg",
+  "penang-balathandayuthapani": "/temples/penang-balathandayuthapani/banner.webp",
+};
 
 const nf = new Intl.NumberFormat("en-IN");
 
@@ -33,6 +49,31 @@ const SCENES: Record<string, SceneImage[]> = {
     { src: "/temples/tiruvannamalai/banner-a.png", aspect: "2172/724", center: 40 },
     // Four gopurams beneath Arunachala at dusk; glow added on the summit.
     { src: "/temples/tiruvannamalai/banner-b.png", aspect: "1774/887", center: 42, peak: { x: 57, y: 30.5 } },
+  ],
+  "palani-murugan": [
+    { src: palani5Img, aspect: "16/9", center: 42 },
+  ],
+  "madurai-meenakshi": [
+    { src: maduraiImg, aspect: "16/9", center: 42 },
+  ],
+  "srirangam": [
+    { src: srirangamImg, aspect: "16/9", center: 42 },
+  ],
+  "rameswaram": [
+    { src: rameswaramImg, aspect: "16/9", center: 42 },
+  ],
+  "dallas-arulmigu-mariamman-usa": [
+    { src: dallasMariammanImg, aspect: "16/9", center: 42 },
+  ],
+  "batu-caves-murugan": [
+    { src: "/temples/batu-caves/banner.jpg", aspect: "16/9", center: 42 },
+    { src: "/temples/batu-caves/murugan-statue-stairs.jpg", aspect: "16/9", center: 40 },
+  ],
+  "penang-balathandayuthapani": [
+    { src: "/temples/penang-balathandayuthapani/banner.webp", aspect: "16/9", center: 42 },
+  ],
+  "trimbakeshwar": [
+    { src: "/temples/trimbakeshwar/banner.jpg", aspect: "16/9", center: 42 },
   ],
 };
 
@@ -184,7 +225,13 @@ export const DashboardHeader = memo(function DashboardHeader({ activeTemple: t }
 
           {/* Photo slot on large screens; inline photo on small screens */}
           <div className="lg:h-full">
-            {(scene?.src ?? hero) && <img src={scene?.src ?? hero} alt={tr(t.name)} className="lg:hidden w-full h-40 object-cover object-[center_60%] rounded-2xl" />}
+            {(scene?.src ?? hero) && (
+              <img
+                src={scene?.src ?? hero}
+                alt={tr(t.name)}
+                className="lg:hidden w-full h-44 sm:h-52 object-cover object-[center_35%] rounded-2xl shadow-sm border border-[#E8E2D5]"
+              />
+            )}
           </div>
 
           {/* Live queue */}
