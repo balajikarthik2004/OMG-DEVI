@@ -34,7 +34,7 @@ export const TempleHeroBanner = memo(function TempleHeroBanner({ temple }: Props
   const bannerImage =
     temple.slug === "trimbakeshwar"
       ? "/temples/trimbakeshwar/banner.jpg"
-      : temple.image || "/planner_itinerary_temple_hd.jpg";
+      : temple.image || "/temple-detail-hero.jpg";
 
   const copyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -61,13 +61,13 @@ export const TempleHeroBanner = memo(function TempleHeroBanner({ temple }: Props
     <>
       <div className="relative w-full rounded-3xl overflow-hidden shadow-md bg-slate-900 border border-[#E8E2D5]">
         {/* Background Image with Dark & Warm Gradients */}
-        <div className="relative h-[340px] sm:h-[380px] lg:h-[400px] w-full overflow-hidden">
+        <div className="relative h-[200px] sm:h-[230px] lg:h-[260px] w-full overflow-hidden">
           <img
             src={bannerImage}
             alt={temple.name}
             className="w-full h-full object-cover object-[center_35%]"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = "/planner_itinerary_temple_hd.jpg";
+              (e.target as HTMLImageElement).src = "/temple-detail-hero.jpg";
             }}
           />
 
@@ -76,52 +76,52 @@ export const TempleHeroBanner = memo(function TempleHeroBanner({ temple }: Props
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/30" />
 
           {/* Top Floating Controls */}
-          <div className="absolute top-4 inset-x-4 lg:top-6 lg:inset-x-6 flex items-center justify-between z-10">
+          <div className="absolute top-3 inset-x-3 sm:top-4 sm:inset-x-4 lg:top-4 lg:inset-x-5 flex items-center justify-between z-10">
             {/* Top-Left Badge */}
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/25 backdrop-blur-md border border-amber-300/40 text-amber-200 text-xs font-bold tracking-wide shadow-xs">
-              <span className="text-amber-300 text-sm">🔱</span>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/25 backdrop-blur-md border border-amber-300/40 text-amber-200 text-[11px] sm:text-xs font-bold tracking-wide shadow-xs">
+              <span className="text-amber-300 text-xs sm:text-sm">🔱</span>
               <span>{isTrimbak ? t("12 Jyotirlinga") : t(temple.tier || "Major Kshetram")}</span>
             </div>
 
             {/* Top-Right Action Buttons */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <Link
                 to="/heatmap"
                 search={{ temple: temple.slug }}
                 title={t("Live Crowd Heatmap")}
-                className="h-10 px-3.5 rounded-full bg-gradient-to-r from-orange-500 to-rose-600 hover:from-orange-600 hover:to-rose-700 text-white backdrop-blur flex items-center gap-1.5 text-xs font-bold transition-all shadow-md hover:scale-105"
+                className="h-8 sm:h-9 px-3 rounded-full bg-gradient-to-r from-orange-500 to-rose-600 hover:from-orange-600 hover:to-rose-700 text-white backdrop-blur flex items-center gap-1.5 text-[11px] sm:text-xs font-bold transition-all shadow-md hover:scale-105"
               >
-                <Flame className="w-4 h-4 text-white" />
+                <Flame className="w-3.5 h-3.5 text-white" />
                 <span className="hidden sm:inline">{t("Live Heatmap")}</span>
               </Link>
               <button
                 onClick={() => setIsShareOpen(true)}
                 title={t("Share")}
-                className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-black/60 transition-all cursor-pointer shadow-xs"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-black/60 transition-all cursor-pointer shadow-xs"
               >
-                <Share2 className="w-4 h-4" />
+                <Share2 className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={() => setIsBookmarked(!isBookmarked)}
                 title={t("Bookmark")}
-                className={`w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all cursor-pointer shadow-xs ${isBookmarked ? "text-amber-400 bg-black/60" : "text-white hover:bg-black/60"
+                className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all cursor-pointer shadow-xs ${isBookmarked ? "text-amber-400 bg-black/60" : "text-white hover:bg-black/60"
                   }`}
               >
-                <Bookmark className={`w-4 h-4 ${isBookmarked ? "fill-amber-400" : ""}`} />
+                <Bookmark className={`w-3.5 h-3.5 ${isBookmarked ? "fill-amber-400" : ""}`} />
               </button>
             </div>
           </div>
 
           {/* Bottom Content Area */}
-          <div className="absolute bottom-0 inset-x-0 p-5 sm:p-7 lg:p-8 text-white z-10">
+          <div className="absolute bottom-0 inset-x-0 p-3 sm:p-4 lg:px-6 lg:pb-4.5 text-white z-10">
             {/* Title */}
-            <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight drop-shadow-md text-white">
+            <h1 className="font-serif text-lg sm:text-xl lg:text-2xl font-bold tracking-tight drop-shadow-md text-white">
               {temple.name}
             </h1>
 
             {/* Location */}
-            <div className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-amber-200/90 mt-1.5 drop-shadow-sm">
-              <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-amber-200/90 mt-0.5 drop-shadow-sm">
+              <MapPin className="w-3 h-3 text-amber-400 shrink-0" />
               <span>
                 {isTrimbak
                   ? "Trimbak, Nashik, Maharashtra"
@@ -130,18 +130,18 @@ export const TempleHeroBanner = memo(function TempleHeroBanner({ temple }: Props
             </div>
 
             {/* Subtitle / History line */}
-            <p className="text-xs sm:text-sm text-slate-200/90 max-w-3xl mt-2 leading-relaxed drop-shadow-xs font-normal">
+            <p className="text-[11px] sm:text-xs text-slate-200/90 max-w-3xl mt-1 leading-snug drop-shadow-xs font-normal line-clamp-1 sm:line-clamp-2">
               {isTrimbak
                 ? "Built in black basalt stone by Peshwa Balaji Baji Rao (1755–1786 CE) • One of the 12 Sacred Jyotirlingas • Origin of River Godavari (Dakshin Ganga)"
                 : temple.description || temple.established}
             </p>
 
             {/* Feature Pills Row */}
-            <div className="flex flex-wrap items-center gap-2 mt-3.5">
+            <div className="flex flex-wrap items-center gap-1.5 mt-2">
               {featurePills.map((pill, idx) => (
                 <div
                   key={idx}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/25 text-white/95 text-xs font-medium shadow-xs"
+                  className="inline-flex items-center gap-1 px-2.5 py-0.5 sm:py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/25 text-white/95 text-[11px] sm:text-xs font-medium shadow-xs"
                 >
                   <span className="text-xs">{pill.icon}</span>
                   <span>{t(pill.text)}</span>

@@ -4,7 +4,7 @@ import meenakshiImg from "@/assets/Madurai.png";
 import srirangamImg from "@/assets/Srirangam.png";
 import arunachaleswararImg from "@/assets/Arunachaleswarar.png";
 import rameswaramImg from "@/assets/Rameswaram.png";
-import batuCavesImg from "@/assets/batu-caves-heatmap.jpg";
+import batuCavesImg from "@/assets/batu-caves-heatmap.png";
 import penangHeatmapImg from "@/assets/penang-heatmap.jpg";
 
 export function useHeatmapZones(t: any) {

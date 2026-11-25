@@ -26,7 +26,7 @@ import rameswaramImg from "@/assets/Rameswaram.png";
 import dallasMariammanImg from "@/assets/dallas-mariamman.png";
 
 const bgImages: Record<string, string> = {
-  "tiruvannamalai": "/temples/tiruvannamalai/panorama.jpg",
+  "tiruvannamalai": "/temple-detail-hero.jpg",
   "palani-murugan": palani5Img,
   "madurai-meenakshi": maduraiImg,
   "srirangam": srirangamImg,
@@ -71,7 +71,7 @@ export function TempleHero({ t }: any) {
   return (
     <>
       <div
-        className="relative h-[320px] sm:h-[360px] lg:h-[400px] w-full overflow-hidden shadow-lg"
+        className="relative h-[200px] sm:h-[230px] lg:h-[260px] w-full overflow-hidden shadow-md"
         style={{ background: `linear-gradient(135deg, ${t.gradientFrom}, ${t.color})` }}
       >
         {/* Banner image with subtle zoom transition */}
@@ -81,6 +81,9 @@ export function TempleHero({ t }: any) {
             alt={t.imageCaption ? `${tStr(t.name)} · ${tStr(t.imageCaption)}` : tStr(t.name)}
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
             style={{ objectPosition: bgPositions[t.slug] ?? "center 30%" }}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "/temple-detail-hero.jpg";
+            }}
           />
         )}
 
@@ -99,65 +102,65 @@ export function TempleHero({ t }: any) {
         )}
 
         {/* Top Floating Controls */}
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 sm:p-6 z-10">
-          <div className="flex items-center gap-2.5">
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3 sm:p-4 lg:px-6 lg:py-4 z-10">
+          <div className="flex items-center gap-2">
             <Link
               to="/"
-              className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/60 transition-all shadow-sm"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/60 transition-all shadow-sm"
               title={tStr("Back to Temples")}
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="w-4 h-4" />
             </Link>
-            <div className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-amber-300 text-xs font-bold tracking-wide shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-amber-300 text-[11px] font-bold tracking-wide shadow-sm">
+              <Sparkles className="w-3 h-3 text-amber-400" />
               <span>{tStr(t.tier || "Major Kshetram")}</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <Link
               to="/heatmap"
               search={{ temple: t.slug }}
               title={tStr("Live Crowd Heatmap")}
-              className="h-10 px-3.5 rounded-full bg-gradient-to-r from-orange-500 to-rose-600 hover:from-orange-600 hover:to-rose-700 text-white backdrop-blur flex items-center gap-1.5 text-xs font-bold transition-all shadow-md hover:scale-105"
+              className="h-8 sm:h-9 px-3 rounded-full bg-gradient-to-r from-orange-500 to-rose-600 hover:from-orange-600 hover:to-rose-700 text-white backdrop-blur flex items-center gap-1.5 text-[11px] sm:text-xs font-bold transition-all shadow-md hover:scale-105"
             >
-              <Flame className="w-4 h-4 text-white" />
+              <Flame className="w-3.5 h-3.5 text-white" />
               <span className="hidden sm:inline">{tStr("Live Heatmap")}</span>
             </Link>
 
             <button
               onClick={() => setIsShareOpen(true)}
-              className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/60 transition-all shadow-sm cursor-pointer"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/60 transition-all shadow-sm cursor-pointer"
               title={tStr("Share Temple")}
             >
-              <Share2 className="w-4 h-4" />
+              <Share2 className="w-3.5 h-3.5" />
             </button>
 
             <button
               onClick={() => setIsBookmarked(!isBookmarked)}
-              className={`w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all shadow-sm cursor-pointer ${
+              className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all shadow-sm cursor-pointer ${
                 isBookmarked ? "text-amber-400 bg-black/60" : "text-white hover:bg-black/60"
               }`}
               title={tStr("Bookmark")}
             >
-              <Bookmark className={`w-4 h-4 ${isBookmarked ? "fill-amber-400" : ""}`} />
+              <Bookmark className={`w-3.5 h-3.5 ${isBookmarked ? "fill-amber-400" : ""}`} />
             </button>
           </div>
         </div>
 
         {/* Bottom Hero Info */}
-        <div className="absolute bottom-0 inset-x-0 p-5 sm:p-7 lg:p-8 text-white z-10">
-          <div className="sm:hidden mb-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-amber-300 text-[11px] font-bold">
-            <Sparkles className="w-3 h-3 text-amber-400" />
+        <div className="absolute bottom-0 inset-x-0 p-3 sm:p-4 lg:px-6 lg:pb-4.5 text-white z-10">
+          <div className="sm:hidden mb-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-amber-300 text-[10px] font-bold">
+            <Sparkles className="w-2.5 h-2.5 text-amber-400" />
             <span>{tStr(t.tier || "Major Kshetram")}</span>
           </div>
 
-          <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight drop-shadow-md">
+          <h1 className="font-serif text-lg sm:text-xl lg:text-2xl font-bold leading-tight tracking-tight drop-shadow-md">
             {tStr(t.name)}
           </h1>
 
-          <div className="text-xs sm:text-sm font-semibold text-amber-200/90 flex items-center gap-1.5 mt-1.5 drop-shadow-sm">
-            <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+          <div className="text-[11px] sm:text-xs font-semibold text-amber-200/90 flex items-center gap-1.5 mt-0.5 drop-shadow-sm">
+            <MapPin className="w-3 h-3 text-amber-400 shrink-0" />
             <span>
               {tStr(t.city)}, {tStr(t.district)}
               {isIndianTemple ? ` ${tStr("District")}` : `, ${tStr(t.state)}`}
@@ -167,31 +170,31 @@ export function TempleHero({ t }: any) {
           </div>
 
           {/* Action pills row: Store & VIP Darshan shortcuts */}
-          <div className="mt-3.5 flex flex-wrap items-center gap-2">
+          <div className="mt-2 flex flex-wrap items-center gap-1.5 sm:gap-2">
             <Link
               to="/store/$storeId"
               params={{ storeId: `store-${t.slug}` }}
-              className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/25 backdrop-blur-md px-3.5 py-1.5 text-xs font-bold text-amber-200 hover:bg-amber-500/35 border border-amber-300/40 shadow-xs transition-all hover:scale-105"
+              className="inline-flex items-center gap-1 rounded-full bg-amber-500/25 backdrop-blur-md px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-bold text-amber-200 hover:bg-amber-500/35 border border-amber-300/40 shadow-xs transition-all hover:scale-105"
             >
-              <ShoppingBag className="w-3.5 h-3.5 text-amber-300" />
+              <ShoppingBag className="w-3 h-3 text-amber-300" />
               <span>{tStr("Temple Store")}</span>
             </Link>
 
             <Link
               to="/booking/$slug"
               params={{ slug: t.slug }}
-              className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/25 backdrop-blur-md px-3.5 py-1.5 text-xs font-bold text-emerald-200 hover:bg-emerald-500/35 border border-emerald-300/40 shadow-xs transition-all hover:scale-105"
+              className="inline-flex items-center gap-1 rounded-full bg-emerald-500/25 backdrop-blur-md px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-bold text-emerald-200 hover:bg-emerald-500/35 border border-emerald-300/40 shadow-xs transition-all hover:scale-105"
             >
-              <Ticket className="w-3.5 h-3.5 text-emerald-300" />
+              <Ticket className="w-3 h-3 text-emerald-300" />
               <span>{tStr("VIP Darshan")}</span>
             </Link>
 
-            <div className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-slate-200 text-xs font-medium">
+            <div className="hidden md:inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-slate-200 text-[11px] font-medium">
               <span>🛕</span>
               <span>{tStr("Agamic Rituals")}</span>
             </div>
 
-            <div className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-slate-200 text-xs font-medium">
+            <div className="hidden lg:inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-slate-200 text-[11px] font-medium">
               <span>✨</span>
               <span>{tStr("Live Queue Telemetry")}</span>
             </div>
