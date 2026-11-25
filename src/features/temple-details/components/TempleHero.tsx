@@ -33,7 +33,7 @@ const bgImages: Record<string, string> = {
   "rameswaram": rameswaramImg,
   "dallas-arulmigu-mariamman-usa": dallasMariammanImg,
   "trimbakeshwar": "/temples/trimbakeshwar_banner.jpg",
-  "batu-caves-murugan": "/temples/batu-caves/banner.jpg",
+  "batu-caves-murugan": "/temples/batu-caves/detail-banner.webp",
   "penang-balathandayuthapani": "/temples/penang-balathandayuthapani/banner.webp",
 };
 
@@ -46,7 +46,7 @@ const bgPositions: Record<string, string> = {
   "rameswaram": "center 35%",
   "dallas-arulmigu-mariamman-usa": "center 20%",
   "trimbakeshwar": "center 35%",
-  "batu-caves-murugan": "center 32%",
+  "batu-caves-murugan": "84% top",
   "penang-balathandayuthapani": "center 18%",
 };
 
@@ -58,6 +58,7 @@ export function TempleHero({ t }: any) {
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const isBatuCaves = t.slug === "batu-caves-murugan";
   const bannerSrc = bgImages[t.slug] || t.image;
   const hasBgImg = !!bannerSrc;
   const isIndianTemple = !OVERSEAS_STATES.has(t.state);
@@ -71,7 +72,9 @@ export function TempleHero({ t }: any) {
   return (
     <>
       <div
-        className="relative h-[200px] sm:h-[230px] lg:h-[260px] w-full overflow-hidden shadow-md"
+        className={`relative w-full overflow-hidden shadow-md ${
+          isBatuCaves ? "h-[220px] sm:h-[240px] lg:h-[290px]" : "h-[200px] sm:h-[230px] lg:h-[260px]"
+        }`}
         style={{ background: `linear-gradient(135deg, ${t.gradientFrom}, ${t.color})` }}
       >
         {/* Banner image with subtle zoom transition */}
@@ -87,8 +90,21 @@ export function TempleHero({ t }: any) {
           />
         )}
 
-        {/* Multi-layered cinematic gradient overlays for high text contrast */}
-        {hasBgImg && (
+        {/* Concentrate shading behind the title while leaving the statue in soft light. */}
+        {hasBgImg && isBatuCaves && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background: [
+                "linear-gradient(to top, rgba(14, 12, 8, .94), rgba(14, 12, 8, .56) 24%, transparent 62%)",
+                "linear-gradient(to right, rgba(14, 12, 8, .48), transparent 68%)",
+                "radial-gradient(ellipse at 66% 20%, rgba(255, 194, 104, .12), transparent 54%)",
+              ].join(", "),
+            }}
+          />
+        )}
+        {hasBgImg && !isBatuCaves && (
           <>
             <div className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/45 to-black/25" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/35" />
@@ -149,13 +165,17 @@ export function TempleHero({ t }: any) {
         </div>
 
         {/* Bottom Hero Info */}
-        <div className="absolute bottom-0 inset-x-0 p-3 sm:p-4 lg:px-6 lg:pb-4.5 text-white z-10">
+        <div className={`absolute bottom-0 inset-x-0 p-3 sm:p-4 lg:px-6 text-white z-10 ${
+          isBatuCaves ? "lg:pb-6" : "lg:pb-4.5"
+        }`}>
           <div className="sm:hidden mb-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-amber-300 text-[10px] font-bold">
             <Sparkles className="w-2.5 h-2.5 text-amber-400" />
             <span>{tStr(t.tier || "Major Kshetram")}</span>
           </div>
 
-          <h1 className="font-serif text-lg sm:text-xl lg:text-2xl font-bold leading-tight tracking-tight drop-shadow-md">
+          <h1 className={`font-serif text-lg sm:text-xl font-bold leading-tight tracking-tight drop-shadow-md ${
+            isBatuCaves ? "lg:text-3xl" : "lg:text-2xl"
+          }`}>
             {tStr(t.name)}
           </h1>
 
