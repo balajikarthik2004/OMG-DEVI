@@ -20,21 +20,16 @@ import { ParkingStatus } from "@/features/temple-details/components/ParkingStatu
 import { AnnadhanamDetails } from "@/features/temple-details/components/AnnadhanamDetails";
 import { SmartAlerts } from "@/features/temple-details/components/SmartAlerts";
 import { TempleTabs } from "@/features/temple-details/components/TempleTabs";
-import { MobileActionBar, OtherTemples, BookingWidget } from "@/features/temple-details/components/SidebarWidgets";
+import { MobileActionBar, OtherTemples, BookingWidget, TempleStoreWidget } from "@/features/temple-details/components/SidebarWidgets";
 
 export const Route = createFileRoute("/_app/temple/$slug")({
   loader: ({ params }) => {
-    if (params.slug === penangTemple.slug) return { temple: penangTemple };
     const t = getTemple(params.slug);
     if (!t) throw notFound();
     return { temple: t };
   },
   head: ({ loaderData }) => ({
-    meta: loaderData?.temple.slug === penangTemple.slug
-      ? [
-        { title: `${penangTemple.name}, Penang | OMG Devotee` },
-        { name: "description", content: "Daily pooja and abhishegam times, darshan wait status, and visitor information for Penang’s Waterfall Hilltop Temple." },
-      ] : [
+    meta: [
       { title: `${loaderData?.temple.name} — Live crowd, AI best time | OMG Smart Temple` },
       { name: "description", content: `Live crowd, parking and AI-recommended visit times for ${loaderData?.temple.name}.` },
     ],
@@ -45,7 +40,6 @@ export const Route = createFileRoute("/_app/temple/$slug")({
 
 function TempleDetail() {
   const { temple: t } = Route.useLoaderData();
-  if (!("crowdPct" in t)) return <PenangTempleProfile />;
   return <LiveTempleDetail key={t.slug} t={t} />;
 }
 
@@ -115,6 +109,7 @@ function LiveTempleDetail({ t }: { t: NonNullable<ReturnType<typeof getTemple>> 
 
           <div ref={sideRef} className="space-y-6 min-w-0 lg:sticky" style={{ top: sideTop }}>
             <BookingWidget t={t} />
+            <TempleStoreWidget t={t} />
             <ParkingStatus t={t} />
             <OtherTemples t={t} />
           </div>

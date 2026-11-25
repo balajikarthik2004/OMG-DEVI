@@ -97,11 +97,11 @@ const defaultProducts: Product[] = [
 ];
 
 // Generate store data based on temples
-export const stores: Store[] = temples.map((temple) => {
+const rawStores: Store[] = temples.map((temple) => {
   // Add some specific items based on temple id
   const specificProducts = [...defaultProducts];
   
-  if (temple.slug.includes('murugan')) {
+  if (temple.slug.includes('murugan') || temple.slug.includes('penang')) {
     const newItems: Product[] = [
       {
         id: `p-murugan-vel-${temple.id}`,
@@ -109,16 +109,16 @@ export const stores: Store[] = temples.map((temple) => {
         description: "Miniature silver-plated Vel, the divine weapon of Lord Murugan.",
         price: 2899,
         category: "Idols",
-      image: "/store/vel1.png",
+        image: "/store/vel1.png",
         stock: 15,
       },
       {
         id: `p-murugan-panchamirtham-${temple.id}`,
-        name: "Palani Panchamirtham (500g)",
-        description: "The world-famous divine prasadam made of five natural ingredients: banana, jaggery, cow ghee, honey, and cardamom.",
+        name: temple.slug.includes('penang') ? "Waterfall Hilltop Panchamirtham Prasadam (500g)" : "Palani Panchamirtham (500g)",
+        description: "Sacred divine prasadam made of five natural ingredients: mountain honey, hill banana, dates, cow ghee, and jaggery.",
         price: 999,
         category: "Merchandise",
-        image: "/store/Panchamirtham.png", // reusing an available image
+        image: "/store/Panchamirtham.png",
         stock: 100,
       },
       {
@@ -147,6 +147,38 @@ export const stores: Store[] = temples.map((temple) => {
     } else {
       specificProducts.push(...newItems);
     }
+  }
+
+  if (temple.slug === 'penang-balathandayuthapani') {
+    specificProducts.unshift(
+      {
+        id: `p-penang-gopuram-photo-${temple.id}`,
+        name: "Framed 7-Storey Hilltop Raja Gopuram Photo (8x10)",
+        description: "High-resolution portrait print of the 21.6m 7-storey Raja Gopuram overlooking the Penang slopes, beautifully framed in synthetic wood.",
+        price: 2499,
+        category: "Photos",
+        image: "/temples/penang-balathandayuthapani/banner.webp",
+        stock: 30,
+      },
+      {
+        id: `p-penang-paalkudam-pot-${temple.id}`,
+        name: "Thaipusam Paal Kudam Brass Kalasam Pot",
+        description: "Traditional embossed brass kalasam pot used for milk offerings (paal kudam) during the holy Thaipusam festival.",
+        price: 1899,
+        category: "Lamps",
+        image: "/store/diya.png",
+        stock: 45,
+      },
+      {
+        id: `p-penang-medallion-${temple.id}`,
+        name: "513 Steps Commemorative Murugan Medallion Coin",
+        description: "Pure gold-plated devotional keepsake medallion commemorating the historic 513-step pilgrimage to the Waterfall Hilltop Shrine.",
+        price: 1299,
+        category: "Merchandise",
+        image: "/store/om.png",
+        stock: 50,
+      }
+    );
   }
 
   if (temple.slug === 'tiruvannamalai') {
@@ -301,18 +333,17 @@ export const stores: Store[] = temples.map((temple) => {
   };
 });
 
-stores.push({
-  id: penangStoreId,
-  templeId: penangTemple.id,
-  name: penangTemple.name,
-  description: "Waterfall Hilltop Temple pooja services and offering enquiries in Penang.",
-  image: penangTemple.image,
-  heroImage: penangTemple.image,
-  state: penangTemple.state,
-  city: penangTemple.city,
-  mode: "enquiry",
-  products: [],
-});
+const batuCavesStore = rawStores.find((s) => s.id === "store-batu-caves-murugan");
+const penangStore = rawStores.find((s) => s.id === "store-penang-balathandayuthapani");
+const otherStores = rawStores.filter(
+  (s) => s.id !== "store-batu-caves-murugan" && s.id !== "store-penang-balathandayuthapani"
+);
+
+export const stores: Store[] = [
+  ...(batuCavesStore ? [batuCavesStore] : []),
+  ...(penangStore ? [penangStore] : []),
+  ...otherStores,
+];
 
 export function getStoreById(storeId: string): Store | undefined {
   return stores.find((s) => s.id === storeId);

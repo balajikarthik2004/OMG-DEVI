@@ -41,6 +41,14 @@ const getAnnadhanamData = (slug: string, tStr: any) => {
         ],
         notes: tStr("Served by the Sri Maha Mariamman Temple Devasthanam alongside the licensed vegetarian stalls on the base plaza. During Thaipusam, free annadhanam runs almost around the clock from marquees along the approach road."),
       };
+    case "penang-balathandayuthapani":
+      return {
+        complex: tStr("HEB Penang Annadhanam Dining Hall"),
+        timings: [
+          { name: tStr("Lunch Prasadam"), code: "LU", time: tStr("12:00 PM – 2:30 PM"), menu: tStr("Vegetarian Rice, Sambar, Rasam, Vegetable Poriyal, Payasam") },
+        ],
+        notes: tStr("Free Annadhanam provided daily by the Penang Hindu Endowments Board (HEB). Continuous serving during Thaipusam, Chitra Pournami, and Panguni Uthiram festivals."),
+      };
     case "madurai-meenakshi":
       return {
         complex: tStr("HR&CE Annadhanam Hall"),

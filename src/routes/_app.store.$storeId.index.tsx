@@ -54,39 +54,45 @@ function StoreDetails() {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 lg:px-8">
-        {isEnquiryStore ? <PenangOfferings /> : <>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
-          <h2 className="flex items-center gap-2 font-serif text-xl font-bold text-slate-900">
-            <ShoppingBag className="w-5 h-5 text-[#C48437]" /> {t("Available Items")}
-          </h2>
-          <div role="tablist" aria-label={t("Category")} className="flex gap-2 overflow-x-auto scrollbar-hide">
-            {categories.map((c) => {
-              const active = category === c;
-              return (
-                <button
-                  key={c}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => setCategory(c)}
-                  className={`shrink-0 h-9 px-4 rounded-full text-sm font-semibold border transition-all ${
-                    active ? "bg-[#0B2F25] text-white border-[#0B2F25] shadow-xs" : "bg-white text-slate-600 border-[#E8E2D5] hover:border-[#0B2F25]/40 hover:text-[#0B2F25]"
-                  }`}
-                >
-                  {c === "All" ? t("All") : t(c)} ({count(c)})
-                </button>
-              );
-            })}
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 space-y-10">
+        <div>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+            <h2 className="flex items-center gap-2 font-serif text-xl font-bold text-slate-900">
+              <ShoppingBag className="w-5 h-5 text-[#C48437]" /> {t("Available Items")}
+            </h2>
+            <div role="tablist" aria-label={t("Category")} className="flex gap-2 overflow-x-auto scrollbar-hide">
+              {categories.map((c) => {
+                const active = category === c;
+                return (
+                  <button
+                    key={c}
+                    type="button"
+                    role="tab"
+                    aria-selected={active}
+                    onClick={() => setCategory(c)}
+                    className={`shrink-0 h-9 px-4 rounded-full text-sm font-semibold border transition-all ${
+                      active ? "bg-[#0B2F25] text-white border-[#0B2F25] shadow-xs" : "bg-white text-slate-600 border-[#E8E2D5] hover:border-[#0B2F25]/40 hover:text-[#0B2F25]"
+                    }`}
+                  >
+                    {c === "All" ? t("All") : t(c)} ({count(c)})
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {products.map((product) => (
+              <ProductCard key={product.id} storeId={store.id} product={product} />
+            ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} storeId={store.id} product={product} />
-          ))}
-        </div>
-        </>}
+        {store.id === "store-penang-balathandayuthapani" && (
+          <div className="border-t border-[#E8E2D5] pt-10">
+            <PenangOfferings />
+          </div>
+        )}
       </div>
     </div>
   );

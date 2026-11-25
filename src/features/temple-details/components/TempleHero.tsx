@@ -81,6 +81,15 @@ export function TempleHero({ t }: any) {
             <MapPin className="w-4 h-4" /> {tStr(t.city)}, {tStr(t.district)}
             {isIndianTemple ? ` ${tStr("District")}` : `, ${tStr(t.state)}`}
           </div>
+          <div className="mt-3 flex items-center gap-2">
+            <Link
+              to="/store/$storeId"
+              params={{ storeId: `store-${t.slug}` }}
+              className="inline-flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur-md px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-white/30 border border-white/25 shadow-sm transition-all hover:scale-105"
+            >
+              <ShoppingBag className="w-3.5 h-3.5 text-amber-300" /> {tStr("Temple Store")}
+            </Link>
+          </div>
         </div>
       </div>
 

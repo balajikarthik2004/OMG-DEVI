@@ -1276,13 +1276,51 @@ export const temples: Temple[] = [
     crowdStatus: "LOW",
     poojas: batuCavesPoojas,
   },
+  {
+    id: 47,
+    slug: "penang-balathandayuthapani",
+    name: "Thaneermalai Shree Balathandayuthapani Devasthanam",
+    image: "/temples/penang-balathandayuthapani/banner.webp",
+    thumb: "/temples/penang-balathandayuthapani/banner.webp",
+    deity: "Lord Murugan (Balathandayuthapani)",
+    state: "Malaysia",
+    district: "Penang",
+    city: "George Town",
+    established: "Historic shrine dating to 1850",
+    tier: "Waterfall Hilltop Temple",
+    description:
+      "Dedicated to Lord Murugan, the Waterfall Hilltop Temple overlooks the wooded slopes near Penang Botanic Gardens. The earlier shrine stood near the waterfall, and the old Murugan temple dating to 1850 still stands partway up the hill. The present hilltop complex was built to accommodate more devotees. Its 21.6-metre, seven-storey gopuram draws on Chola and Pallava architecture, and six pillars inside evoke Murugan’s six sacred abodes.",
+    openTime: "06:00",
+    closeTime: "21:00",
+    afternoonClose: "12:00",
+    afternoonOpen: "16:30",
+    crowd: 4200,
+    capacity: 10000,
+    crowdPct: 42,
+    waitMin: 22,
+    parking: { lotA: 68, lotB: 45, overflow: 10 },
+    color: "#144536",
+    gradientFrom: "#0a2d24",
+    gradientTo: "#165B43",
+    specialDay: "Friday",
+    crowdStatus: "MODERATE",
+    poojas: [
+      "6:45 AM Abhishegam · 7:30 AM Morning Pooja",
+      "11:00 AM Abhishegam · 12:00 PM Noon Pooja",
+      "5:00 PM Abhishegam · 6:00 PM Evening Pooja",
+      "8:00 PM Abhishegam · 9:00 PM Night Pooja",
+    ],
+  },
 ];
 
 const batuCavesTemple = temples.find((t) => t.slug === "batu-caves-murugan")!;
-const otherTemples = temples.filter((t) => t.slug !== "batu-caves-murugan");
+const penangBalathandayuthapani = temples.find((t) => t.slug === "penang-balathandayuthapani")!;
+const otherTemples = temples.filter(
+  (t) => t.slug !== "batu-caves-murugan" && t.slug !== "penang-balathandayuthapani"
+);
 
 // Sri Subramaniar Swamy Temple (Batu Caves) and Thaneermalai Balathandayuthapani (Penang) are items 1 & 2
-export const templeDirectory = [batuCavesTemple, penangTemple, ...otherTemples];
+export const templeDirectory = [batuCavesTemple, penangBalathandayuthapani, ...otherTemples];
 
 export const statesAndDistricts = Array.from(new Set(temples.map((t) => t.state))).map((state) => {
   return {

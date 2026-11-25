@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
-import { Bell, MessageCircle, Navigation, Share2, Ticket } from "lucide-react";
+import { Bell, MessageCircle, Navigation, Share2, Ticket, ShoppingBag } from "lucide-react";
 import { CrowdBadge } from "@/components/shared/CrowdBadge";
 import { temples, templeThumb } from "@/data/temples";
 
@@ -14,6 +14,30 @@ export function MobileActionBar({ t }: any) {
       <Link to="/booking/$slug" params={{ slug: t.slug || "" }} className="flex flex-col items-center justify-center gap-0.5 text-[11px] text-foreground/80"><Ticket className="w-4 h-4 text-saffron" />{tStr("VIP Darshan")}</Link>
       <Link to="/chat" className="flex flex-col items-center justify-center gap-0.5 text-[11px] text-foreground/80"><MessageCircle className="w-4 h-4" />{tStr("Ask AI")}</Link>
       <ActionBtn icon={<Share2 className="w-4 h-4" />} label={tStr("Share")} />
+    </div>
+  );
+}
+
+export function TempleStoreWidget({ t }: any) {
+  const { t: tStr } = useTranslation();
+  const storeId = `store-${t.slug}`;
+
+  return (
+    <div className="bg-gradient-to-br from-amber-50 to-orange-50/50 border border-amber-100 rounded-3xl p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+      <div className="absolute top-0 right-0 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none transition-all group-hover:bg-amber-500/20"></div>
+
+      <div className="relative z-10">
+        <div className="flex items-center gap-2 mb-2 text-amber-700">
+          <ShoppingBag className="w-5 h-5" />
+          <h3 className="font-serif text-xl font-bold text-slate-900">{tStr("Official Temple Store")}</h3>
+        </div>
+        <p className="text-sm text-slate-600 mb-6">{tStr("Order authentic prasadam, sacred vibhuthi, brass lamps, and souvenirs blessed at the temple.")}</p>
+
+        <Link to="/store/$storeId" params={{ storeId }} className="relative group inline-flex items-center justify-center w-full gap-2.5 text-sm font-bold text-white px-6 py-3.5 rounded-full transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_25px_rgba(217,119,6,0.3)] bg-gradient-to-r from-amber-500 to-orange-500 overflow-hidden">
+          <ShoppingBag className="w-4 h-4 relative z-10" />
+          <span className="relative z-10 tracking-wide">{tStr("Visit Temple Store")}</span>
+        </Link>
+      </div>
     </div>
   );
 }
